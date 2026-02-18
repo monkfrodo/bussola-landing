@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Bússola — Kevin Eger</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-deep: #0a0a0f;
+  --bg-section: #0f0f18;
+  --bg-card: #161622;
+  --gold: #c9a84c;
+  --gold-dim: #8a7235;
+  --gold-glow: rgba(201, 168, 76, 0.15);
+  --text: #e8e4dc;
+  --text-dim: #8a8678;
+  --text-muted: #5a5750;
+  --accent: #4a3f6b;
+  --accent-light: #6b5d9e;
+  --white: #f5f0e8;
+  --red-card: #8b2d3a;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg-deep);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  line-height: 1.7;
+  font-size: 17px;
+  overflow-x: hidden;
+}
+
+/* === DECORATIVE ELEMENTS === */
+.alice-symbol {
+  position: absolute;
+  font-size: 1.4rem;
+  color: var(--gold-dim);
+  opacity: 0.12;
+  pointer-events: none;
+  user-select: none;
+}
+
+.card-suit { font-family: serif; }
+
+/* === LAYOUT === */
+section {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 80px 24px;
+  position: relative;
+}
+
+.divider {
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+  opacity: 0.3;
+}
+
+/* === TYPOGRAPHY === */
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  line-height: 1.15;
+  color: var(--white);
+  margin-bottom: 24px;
+}
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  line-height: 1.2;
+  color: var(--white);
+  margin-bottom: 20px;
+}
+
+h3 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
+  color: var(--gold);
+  margin-bottom: 32px;
+  line-height: 1.4;
+}
+
+p { margin-bottom: 20px; }
+
+strong, b { font-weight: 500; color: var(--white); }
+
+.highlight { color: var(--gold); font-weight: 500; }
+
+.isolated {
+  font-size: 1.05em;
+  color: var(--text-dim);
+  margin: 28px 0;
+}
+
+blockquote {
+  border-left: 2px solid var(--gold-dim);
+  padding-left: 20px;
+  margin: 32px 0;
+  font-style: italic;
+  color: var(--text-dim);
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1em;
+  line-height: 1.6;
+}
+
+/* === BANNER === */
+.banner {
+  background: linear-gradient(90deg, var(--bg-card), var(--accent), var(--bg-card));
+  text-align: center;
+  padding: 14px 24px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+}
+
+/* === HERO === */
+.hero {
+  text-align: center;
+  padding: 120px 24px 80px;
+  position: relative;
+}
+
+.hero h1 {
+  font-size: clamp(2.8rem, 7vw, 4.5rem);
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+
+.hero h3 {
+  max-width: 500px;
+  margin: 0 auto 40px;
+}
+
+.hero p {
+  max-width: 540px;
+  margin: 0 auto 20px;
+  color: var(--text-dim);
+}
+
+.compass-icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 32px;
+  border: 1.5px solid var(--gold-dim);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold);
+  font-size: 1.4rem;
+  opacity: 0.7;
+}
+
+/* === CTA === */
+.cta-wrap { text-align: center; margin: 40px 0 0; }
+
+.cta {
+  display: inline-block;
+  padding: 16px 48px;
+  background: var(--gold);
+  color: var(--bg-deep);
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cta:hover {
+  background: var(--white);
+  box-shadow: 0 0 30px var(--gold-glow);
+}
+
+/* === WEEK CARDS === */
+.week-card {
+  background: var(--bg-card);
+  border-left: 2px solid var(--gold-dim);
+  padding: 28px 32px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.week-card::before {
+  content: attr(data-week);
+  position: absolute;
+  top: -10px;
+  left: 20px;
+  background: var(--bg-section);
+  padding: 0 8px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+}
+
+.week-card h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+
+.week-card p {
+  color: var(--text-dim);
+  margin-bottom: 0;
+  font-size: 0.95rem;
+}
+
+/* === STACK === */
+.stack-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.stack-item:last-child { border-bottom: none; }
+
+.stack-item .item-name {
+  flex: 1;
+  padding-right: 20px;
+}
+
+.stack-item .item-value {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  text-decoration: line-through;
+  white-space: nowrap;
+}
+
+.stack-total {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--gold-dim);
+  text-align: center;
+}
+
+.stack-total .old-price {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  text-decoration: line-through;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.stack-total .real-price {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.4rem;
+  color: var(--gold);
+  font-weight: 700;
+}
+
+/* === PRICING === */
+.price-box {
+  text-align: center;
+  background: var(--bg-card);
+  border: 1px solid rgba(201, 168, 76, 0.2);
+  padding: 48px 32px;
+  margin: 40px 0;
+}
+
+.price-box .installment {
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  margin-bottom: 4px;
+}
+
+.price-box .price-main {
+  font-family: 'Playfair Display', serif;
+  font-size: 3.5rem;
+  color: var(--gold);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.price-box .price-main span {
+  font-size: 1.4rem;
+  vertical-align: super;
+}
+
+.price-box .price-alt {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 8px;
+}
+
+/* === GUARANTEE === */
+.guarantee {
+  text-align: center;
+  padding: 60px 24px;
+}
+
+.guarantee-badge {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 24px;
+  border: 1.5px solid var(--gold-dim);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+}
+
+/* === TRANSITION === */
+.transition-section {
+  background: var(--bg-card);
+  border-radius: 0;
+  padding: 48px 32px;
+  margin: 0 auto;
+  max-width: 680px;
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+/* === ALICE DECORATIONS === */
+.rabbit-hole {
+  position: relative;
+  overflow: hidden;
+}
+
+.rabbit-hole::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(180deg, transparent, var(--gold-dim), transparent);
+  opacity: 0.15;
+}
+
+.chess-floor {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  margin: 40px auto;
+  opacity: 0.08;
+}
+
+.chess-floor span {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+.chess-floor span:nth-child(odd) { background: var(--gold); }
+.chess-floor span:nth-child(even) { background: transparent; }
+
+.clock-decoration {
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+  color: var(--gold-dim);
+  opacity: 0.25;
+  font-size: 0.8rem;
+  letter-spacing: 0.3em;
+  margin: 60px 0;
+}
+
+/* === TRIPLE DENY === */
+.deny-list p {
+  color: var(--text-muted);
+  padding-left: 20px;
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.deny-list p::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--red-card);
+}
+
+.welcome {
+  color: var(--white) !important;
+  font-weight: 400;
+  margin-top: 28px;
+  padding-left: 0 !important;
+}
+
+.welcome::before { display: none !important; }
+
+/* === FOOTER === */
+footer {
+  text-align: center;
+  padding: 60px 24px;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+footer a { color: var(--gold-dim); text-decoration: none; }
+
+/* === RESPONSIVE === */
+@media (max-width: 640px) {
+  section { padding: 60px 20px; }
+  .hero { padding: 80px 20px 60px; }
+  .week-card { padding: 24px 20px; }
+  .stack-item { flex-direction: column; gap: 2px; }
+  .stack-item .item-value { text-align: left; }
+}
+</style>
+</head>
+<body>
+
+<!-- BANNER -->
+<div class="banner">
+  Próxima turma: Março 2026 &mdash; 18 vagas
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="compass-icon">&#9678;</div>
+  <h1>A Bússola</h1>
+  <h3>Quem não sabe pra onde vai, qualquer lugar serve.</h3>
+  <p>Você trabalha 10 horas por dia. Sabe que alguma coisa está errada. Tentou trocar de estratégia, de ferramenta, de mentor &mdash; e continua no mesmo lugar.</p>
+  <p>O problema nunca foi falta de esforço. Foi falta de diagnóstico.</p>
+  <p>Em 4 semanas, você vai saber &mdash; <strong>com números, não com opinião</strong> &mdash; se o seu negócio é viável do jeito que está. E se não é, vai saber exatamente o que mudar.</p>
+  <div class="cta-wrap">
+    <a href="#preco" class="cta">Quero ter certeza</a>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CLOCK DECORATION -->
+<div class="clock-decoration">&#9201; &middot; tick &middot; tock &middot; tick &middot; tock &middot; &#9201;</div>
+
+<!-- TENSÃO -->
+<section>
+  <h2>Deixa eu te contar o que ninguém vai te contar.</h2>
+  <p>Você definiu sua meta de faturamento. Dividiu pelo preço que cobra. Chegou no número de clientes que precisa.</p>
+  <p class="isolated">E parou por aí.</p>
+  <p class="isolated">Todo mundo para aí.</p>
+  <p>Ninguém faz a conta seguinte: quantas horas cada cliente consome? Quantas horas você realmente tem? E quando faz essa conta &mdash; a conta que ninguém faz &mdash; descobre que a meta é <strong>matematicamente impossível</strong>.</p>
+  <p>Não é falta de disciplina.<br>Não é falta de estratégia.<br>Não é falta de marketing.</p>
+  <p>É que a conta não fecha. E nunca fechou. Você só nunca fez ela.</p>
+</section>
+
+<div class="divider"></div>
+
+<!-- O DIAGNÓSTICO -->
+<section>
+  <h2>O seu negócio tem um número que você não conhece.</h2>
+  <p>Se chama <strong class="highlight">taxa de ocupação</strong>. É a relação entre o tempo que você precisa pra bater sua meta e o tempo que você realmente tem.</p>
+  <p>Se essa taxa passa de 100%, sua meta é uma ilusão. Não importa quantos cursos você compre, quantos gurus você siga, quantas manhãs produtivas você tenha.</p>
+  <p class="isolated">É matemática. Não tem hack.</p>
+  <p>A maioria dos empresários que me procura opera entre 95% e 130%. Ou seja: no limite absoluto ou no impossível. E se culpam por não conseguir.</p>
+  <p>A Bússola mostra esse número. E mostra o que fazer com ele.</p>
+</section>
+
+<div class="divider"></div>
+
+<!-- CHESS FLOOR -->
+<div class="chess-floor">
+  <span></span><span></span><span></span><span></span><span></span><span></span>
+  <span></span><span></span><span></span><span></span><span></span><span></span>
+  <span></span><span></span><span></span><span></span><span></span><span></span>
+  <span></span><span></span><span></span><span></span><span></span><span></span>
+</div>
+
+<!-- O QUE É -->
+<section>
+  <h2>O que é A Bússola, na prática.</h2>
+  <p>Um programa de 4 semanas onde eu vou te ajudar a fazer três coisas que você provavelmente nunca fez:</p>
+
+  <p><strong>1. Mapear quanto tempo o seu negócio realmente consome.</strong><br>
+  Não o que você acha. O que é. Com cada tarefa, cada periodicidade, cada hora contada. Sem arredondar, sem romantizar.</p>
+
+  <p><strong>2. Descobrir se o seu preço está certo.</strong><br>
+  Quanto custa pra você entregar? Quanto o mercado cobra? Quanto o seu cliente percebe de valor? Três números, três pilares. A maioria só conhece um &mdash; ou nenhum.</p>
+
+  <p><strong>3. Montar um plano de ação baseado em realidade, não em desejo.</strong><br>
+  Se o diagnóstico mostra que precisa mudar preço &mdash; você vai saber como. Se mostra que precisa cortar escopo &mdash; vai saber o quê. Se mostra que precisa contratar &mdash; vai saber pra qual função.</p>
+
+  <p>Sem fórmula mágica. Sem "acredite no seu potencial". Com uma planilha, uma calculadora e a verdade.</p>
+</section>
+
+<div class="divider"></div>
+
+<!-- COMO FUNCIONA -->
+<section>
+  <h2>4 semanas. 4 calls. 1 diagnóstico completo.</h2>
+
+  <div class="week-card" data-week="Semana 1">
+    <h4>Raio-X do Modelo</h4>
+    <p>Você mapeia a realidade do seu negócio como ele é hoje. O que vende, pra quem, quanto cobra, quantas horas trabalha. Sem filtro.</p>
+  </div>
+
+  <div class="week-card" data-week="Semana 2">
+    <h4>A Conta do Tempo</h4>
+    <p>Você aplica a Matriz de Horários. Descobre sua taxa de ocupação real, seu teto de faturamento, e o diagnóstico: meta ilusória? Operação estrangulada? Precificação suicida? Gargalo invisível?</p>
+  </div>
+
+  <div class="week-card" data-week="Semana 3">
+    <h4>O Preço Certo</h4>
+    <p>Você calcula os três pilares do preço: piso (custo), referência (mercado) e teto (valor percebido). Descobre se está cobrando certo &mdash; ou se está pagando pra trabalhar.</p>
+  </div>
+
+  <div class="week-card" data-week="Semana 4">
+    <h4>O Mapa da Saída</h4>
+    <p>Você cruza tudo e monta o plano: quais alavancas mexer, quais ações tomar nos próximos 30 dias, e o que você consegue fazer sozinho vs. o que precisa de acompanhamento.</p>
+  </div>
+
+  <p style="color: var(--text-dim); font-size: 0.9rem; margin-top: 24px;">Cada semana tem: conteúdo gravado na área de membros + exercício prático + call em grupo comigo (60 minutos) onde eu faço diagnóstico ao vivo.</p>
+</section>
+
+<div class="divider"></div>
+
+<!-- PRA QUEM É -->
+<section>
+  <h2>Isso não é pra todo mundo.</h2>
+  <p>A Bússola foi pensada pra quem já tem um negócio rodando &mdash; agência, consultoria, mentoria, prestação de serviço &mdash; fatura entre R$20k e R$150k por mês, e sente que algo não encaixa.</p>
+  <p>Trabalha demais. A conta é apertada. Já tentou de tudo. E começa a desconfiar que o problema não é o que faz, mas como o negócio está montado.</p>
+
+  <div class="deny-list">
+    <p>Se você está começando agora e precisa do básico, isso não é pra você.</p>
+    <p>Se você quer uma resposta rápida e fácil, isso não é pra você.</p>
+    <p>Se você não está disposto a olhar pros números reais, isso não é pra você.</p>
+    <p class="welcome">Agora, se você quer saber a verdade sobre o seu próprio negócio &mdash; mesmo que doa &mdash; bem-vindo.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CLOCK -->
+<div class="clock-decoration">&laquo; curiouser and curiouser &raquo;</div>
+
+<!-- BIBLIOTECA -->
+<section>
+  <h2>Antes de fazer o seu, veja o de quem já passou por isso.</h2>
+  <p>Você vai receber acesso a 10 casos detalhados de empresários com diagnósticos diferentes. Donos de agência que descobriram que a meta era impossível. Mentoras que entenderam que o modelo tinha teto. Prestadores que perceberam que estavam trabalhando de graça nas iterações infinitas. Veteranos que nunca reajustaram em 8 anos.</p>
+  <p>Cada caso tem os números, o diagnóstico e a revelação.</p>
+  <p>Você vai ler e se reconhecer em pelo menos dois ou três. E isso vai acontecer antes de você fazer o próprio.</p>
+</section>
+
+<div class="divider"></div>
+
+<!-- TEMPLATES -->
+<section>
+  <h2>Ferramentas pra quando o diagnóstico pede ação.</h2>
+  <p>Três templates prontos pra usar no dia seguinte:</p>
+  <p><strong>Conversa de reajuste de preço</strong> &mdash; quando a Matriz mostra que você cobra menos do que deveria e precisa falar com o cliente sem perder ele.</p>
+  <p><strong>Redefinição de escopo</strong> &mdash; quando você descobre que entrega o dobro do combinado e precisa reorganizar o que está incluído e o que é adicional.</p>
+  <p><strong>Decisão calculada de contratação</strong> &mdash; quando os números mostram que precisa de mais capacidade, mas você tem trauma de contratar. O template mostra se precisa, pra quê, e se a conta fecha.</p>
+</section>
+
+<div class="divider"></div>
+
+<!-- BÔNUS -->
+<section>
+  <h2>O que mais vem junto.</h2>
+  <p><strong>30 dias de acesso à base completa do Íntegros</strong><br>
+  Todo o conteúdo, frameworks e ferramentas do programa de acompanhamento de R$30.000/ano &mdash; aberto pra você por 30 dias. Pra ir além do diagnóstico e começar a implementar antes mesmo de decidir o próximo passo.</p>
+  <p><strong>Gravação das 4 calls</strong><br>
+  Pra revisitar quando precisar. Às vezes o diagnóstico faz mais sentido na segunda vez.</p>
+</section>
+
+<div class="divider"></div>
+
+<!-- GARANTIA -->
+<section class="guarantee">
+  <div class="guarantee-badge">&#9878;</div>
+  <h2>Clareza ou seu dinheiro de volta.</h2>
+  <p>Se ao final das 4 semanas, tendo feito os exercícios, você não tiver clareza sobre a viabilidade do seu modelo e um plano concreto de ação &mdash; eu devolvo 100%.</p>
+  <p>Eu não tenho problema em devolver. Tenho problema em entregar um programa que não funciona.</p>
+</section>
+
+<div class="divider"></div>
+
+<!-- STACK -->
+<section>
+  <h2>É isso que está na mesa:</h2>
+
+  <div class="stack-item">
+    <span class="item-name">4 calls em grupo ao vivo comigo (60min cada)</span>
+    <span class="item-value">R$ 2.000</span>
+  </div>
+  <div class="stack-item">
+    <span class="item-name">Área de membros com conteúdo gravado + exercícios</span>
+    <span class="item-value">R$ 500</span>
+  </div>
+  <div class="stack-item">
+    <span class="item-name">Grupo no WhatsApp durante as 4 semanas</span>
+    <span class="item-value"></span>
+  </div>
+  <div class="stack-item">
+    <span class="item-name">Planilha da Matriz de Horários (com fórmulas prontas)</span>
+    <span class="item-value">R$ 300</span>
+  </div>
+  <div class="stack-item">
+    <span class="item-name">Calculadora de Precificação CVM</span>
+    <span class="item-value">R$ 300</span>
+  </div>
+  <div class="stack-item">
+    <span class="item-name">Biblioteca de 10 Cases com diagnósticos reais</span>
+    <span class="item-value">R$ 200</span>
+  </div>
+  <div class="stack-item">
+    <span class="item-name">3 Templates de Ação (reajuste, escopo, contratação)</span>
+    <span class="item-value">R$ 400</span>
+  </div>
+  <div class="stack-item">
+    <span class="item-name">30 dias de acesso à base completa do Íntegros (R$30k/ano)</span>
+    <span class="item-value">R$ 2.500</span>
+  </div>
+  <div class="stack-item">
+    <span class="item-name">Gravação das 4 calls</span>
+    <span class="item-value"></span>
+  </div>
+  <div class="stack-item">
+    <span class="item-name">Garantia de clareza ou dinheiro de volta</span>
+    <span class="item-value"></span>
+  </div>
+
+  <div class="stack-total">
+    <span class="old-price">Valor real: R$ 6.200</span>
+    <span class="real-price">R$ 497</span>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PREÇO -->
+<section id="preco">
+  <h2>Quanto vale saber a verdade sobre o seu negócio?</h2>
+  <p>A maioria dos empresários que passa pela Bússola descobre que está perdendo milhares por mês operando o modelo errado. Alguns descobrem que estão cobrando metade do que deveriam. Outros descobrem que um único cliente consome mais tempo do que todos os outros juntos.</p>
+  <p class="isolated" style="color: var(--gold);">R$497 é o preço de saber.</p>
+
+  <div class="price-box">
+    <div class="installment">12x de</div>
+    <div class="price-main"><span>R$</span> 49,70</div>
+    <div class="price-alt">ou R$ 497,00 à vista</div>
+  </div>
+
+  <div class="cta-wrap">
+    <a href="#" class="cta">Quero ter certeza</a>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TRANSIÇÃO -->
+<section>
+  <div class="transition-section">
+    <h2 style="font-size: 1.4rem;">E depois da Bússola?</h2>
+    <p>Diagnóstico sem implementação é frustração. Se no final das 4 semanas você quiser acompanhamento pra implementar o que o plano mostrou, o <strong>Fundamentos</strong> existe pra isso &mdash; 16 semanas de reestruturação completa.</p>
+    <p>Alunos da Bússola entram por R$3.500 (em vez de R$4.000). Os R$497 que você investiu aqui voltam como desconto. Mais uma call individual comigo de 30 minutos.</p>
+    <p style="color: var(--text-dim);">Mas isso é escolha sua. A Bússola é produto completo. Você sai com diagnóstico e plano. Se quiser implementar sozinho, vai com o mapa na mão.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FECHAMENTO -->
+<section style="text-align: center;">
+  <h2>Cada mês que passa operando sem diagnóstico é um mês que você não recupera.</h2>
+  <p>Não é sobre urgência. É sobre matemática.</p>
+  <p>Se a sua taxa de ocupação está acima de 100%, você está se matando por uma meta que nunca ia funcionar do jeito que está. E vai continuar se matando até olhar pros números.</p>
+  <p class="isolated" style="color: var(--gold);">A Bússola é o momento de parar e fazer a conta.</p>
+
+  <div class="cta-wrap" style="margin-top: 48px;">
+    <a href="#preco" class="cta">Quero ter certeza</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p style="font-family: 'Playfair Display', serif; font-style: italic; color: var(--gold-dim); margin-bottom: 16px; font-size: 0.9rem;">&ldquo;Quem não sabe pra onde vai, qualquer lugar serve.&rdquo;</p>
+  <p>&copy; 2026 Kevin Eger &mdash; <a href="#">Íntegros</a></p>
+</footer>
+
+</body>
+</html>

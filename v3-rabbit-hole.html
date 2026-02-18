@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Bússola — Kevin Eger</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   A BÚSSOLA — V3: DOWN THE RABBIT HOLE
+   Full immersive Alice journey
+   ============================================ */
+
+:root {
+  --bg-void: #050208;
+  --bg-deep: #0a0712;
+  --bg-purple: #120e1f;
+  --bg-card: #16122a;
+  --bg-card-glow: #1e1838;
+
+  --gold: #d4af37;
+  --gold-bright: #f5d45e;
+  --gold-pale: #e8cc6a;
+  --gold-dim: #8a7235;
+  --gold-glow: rgba(212, 175, 55, 0.25);
+
+  --purple: #7b4fbf;
+  --purple-bright: #9b6fd8;
+  --purple-deep: #3a1d6e;
+  --purple-dark: #1a0e36;
+  --purple-glow: rgba(123, 79, 191, 0.3);
+
+  --red: #c42847;
+  --red-deep: #8b1a30;
+  --red-glow: rgba(196, 40, 71, 0.2);
+
+  --teal: #30b8a0;
+  --teal-deep: #1a6b5e;
+  --teal-glow: rgba(48, 184, 160, 0.15);
+
+  --blue: #4a7dbd;
+
+  --text: #e8e4dc;
+  --text-dim: #a09a8e;
+  --text-muted: #6a645a;
+  --white: #f8f4ec;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg-void);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  line-height: 1.7;
+  font-size: 17px;
+  overflow-x: hidden;
+}
+
+/* ========================
+   PARTICLES CANVAS
+   ======================== */
+#particles {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.page-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* ========================
+   TYPOGRAPHY
+   ======================== */
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--white);
+}
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: clamp(1.7rem, 4.5vw, 2.6rem);
+  line-height: 1.2;
+  color: var(--white);
+  margin-bottom: 28px;
+}
+
+h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(1.3rem, 3.5vw, 1.8rem);
+  color: var(--gold);
+  line-height: 1.5;
+}
+
+p { margin-bottom: 22px; }
+strong { font-weight: 500; color: var(--white); }
+.gold { color: var(--gold-bright); }
+.purple-text { color: var(--purple-bright); }
+
+.section-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+/* ========================
+   BANNER — sticky
+   ======================== */
+.banner {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  text-align: center;
+  padding: 13px 24px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: rgba(10, 7, 18, 0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.12);
+}
+
+/* ========================
+   CHAPTER LABELS
+   ======================== */
+.chapter-label {
+  text-align: center;
+  padding: 48px 0 20px;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 0.85rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--purple-bright);
+  opacity: 0.5;
+}
+
+/* ========================
+   1. THE RABBIT HOLE — HERO
+   ======================== */
+.rabbit-hole {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 28px;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 20%, rgba(123, 79, 191, 0.2) 0%, transparent 50%),
+    radial-gradient(ellipse at 30% 80%, rgba(212, 175, 55, 0.06) 0%, transparent 40%),
+    radial-gradient(ellipse at 70% 60%, rgba(196, 40, 71, 0.05) 0%, transparent 40%),
+    linear-gradient(180deg, var(--bg-void) 0%, var(--bg-purple) 50%, var(--bg-void) 100%);
+}
+
+/* Falling cards animation */
+.falling-cards {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.falling-card {
+  position: absolute;
+  font-size: 2.2rem;
+  opacity: 0;
+  animation: cardFall linear infinite;
+}
+
+@keyframes cardFall {
+  0% { opacity: 0; transform: translateY(-5vh) rotate(0deg) scale(0.8); }
+  8% { opacity: 0.12; }
+  85% { opacity: 0.12; }
+  100% { opacity: 0; transform: translateY(105vh) rotate(720deg) scale(0.4); }
+}
+
+.falling-card:nth-child(1) { left: 3%; animation-duration: 18s; animation-delay: 0s; color: var(--red); }
+.falling-card:nth-child(2) { left: 12%; animation-duration: 22s; animation-delay: 2s; color: var(--gold-dim); }
+.falling-card:nth-child(3) { left: 24%; animation-duration: 16s; animation-delay: 5s; color: var(--purple); }
+.falling-card:nth-child(4) { left: 36%; animation-duration: 20s; animation-delay: 1s; color: var(--red); }
+.falling-card:nth-child(5) { left: 48%; animation-duration: 24s; animation-delay: 8s; color: var(--gold-dim); }
+.falling-card:nth-child(6) { left: 58%; animation-duration: 17s; animation-delay: 3s; color: var(--purple); }
+.falling-card:nth-child(7) { left: 70%; animation-duration: 21s; animation-delay: 6s; color: var(--red); }
+.falling-card:nth-child(8) { left: 80%; animation-duration: 19s; animation-delay: 4s; color: var(--gold-dim); }
+.falling-card:nth-child(9) { left: 91%; animation-duration: 23s; animation-delay: 7s; color: var(--purple); }
+.falling-card:nth-child(10) { left: 7%; animation-duration: 25s; animation-delay: 10s; color: var(--red-deep); }
+.falling-card:nth-child(11) { left: 44%; animation-duration: 15s; animation-delay: 12s; color: var(--gold); }
+.falling-card:nth-child(12) { left: 65%; animation-duration: 26s; animation-delay: 9s; color: var(--purple-deep); }
+
+/* Compass */
+.compass-hero {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 40px;
+  animation: compassPulse 5s ease-in-out infinite, compassSpin 30s linear infinite;
+}
+
+@keyframes compassPulse {
+  0%, 100% { filter: drop-shadow(0 0 8px rgba(212,175,55,0.2)); }
+  50% { filter: drop-shadow(0 0 24px rgba(212,175,55,0.5)); }
+}
+
+@keyframes compassSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.compass-inner {
+  animation: compassSpin 30s linear infinite reverse;
+}
+
+.rabbit-hole h1 {
+  font-size: clamp(3.5rem, 10vw, 7rem);
+  letter-spacing: -0.04em;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, var(--gold-pale) 0%, var(--white) 25%, var(--gold) 50%, var(--white) 75%, var(--gold-pale) 100%);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: goldShimmer 4s ease-in-out infinite;
+}
+
+@keyframes goldShimmer {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.rabbit-hole h3 {
+  max-width: 500px;
+  margin-bottom: 48px;
+}
+
+.hero-text {
+  max-width: 560px;
+  margin-bottom: 22px;
+  color: var(--text-dim);
+  font-size: 1.05rem;
+}
+
+/* CTA */
+.cta {
+  display: inline-block;
+  padding: 20px 64px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-bright));
+  color: var(--bg-void);
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 0.82rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  box-shadow: 0 4px 24px var(--gold-glow);
+}
+
+.cta::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 200%; height: 100%;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
+  animation: ctaSweep 3s ease-in-out infinite;
+}
+
+@keyframes ctaSweep {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+.cta:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 40px var(--gold-glow), 0 0 80px rgba(212,175,55,0.15);
+}
+
+.cta-wrap { text-align: center; margin-top: 48px; }
+
+/* Scroll indicator */
+.scroll-hint {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  animation: scrollBounce 2s ease-in-out infinite;
+}
+
+.scroll-hint span {
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.scroll-arrow {
+  width: 20px;
+  height: 20px;
+  border-right: 1.5px solid var(--gold-dim);
+  border-bottom: 1.5px solid var(--gold-dim);
+  transform: rotate(45deg);
+}
+
+@keyframes scrollBounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.4; }
+  50% { transform: translateX(-50%) translateY(10px); opacity: 0.8; }
+}
+
+/* ========================
+   TUNNEL TRANSITION
+   ======================== */
+.tunnel {
+  height: 200px;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-void);
+}
+
+.tunnel-rings {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.tunnel-ring {
+  position: absolute;
+  border: 1px solid var(--purple);
+  border-radius: 50%;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  animation: tunnelPulse 4s ease-in-out infinite;
+}
+
+.tunnel-ring:nth-child(1) { width: 60px; height: 60px; opacity: 0.3; animation-delay: 0s; }
+.tunnel-ring:nth-child(2) { width: 120px; height: 100px; opacity: 0.2; animation-delay: 0.5s; }
+.tunnel-ring:nth-child(3) { width: 200px; height: 150px; opacity: 0.12; animation-delay: 1s; }
+.tunnel-ring:nth-child(4) { width: 300px; height: 200px; opacity: 0.06; animation-delay: 1.5s; }
+.tunnel-ring:nth-child(5) { width: 450px; height: 280px; opacity: 0.03; animation-delay: 2s; }
+
+@keyframes tunnelPulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -50%) scale(1.15); }
+}
+
+/* ========================
+   2. CORRIDOR OF DOORS — TENSÃO
+   ======================== */
+.corridor {
+  padding: 100px 0;
+  position: relative;
+  background:
+    linear-gradient(180deg, var(--bg-void) 0%, var(--bg-deep) 20%, var(--bg-deep) 80%, var(--bg-void) 100%);
+}
+
+/* SVG Door decorations */
+.doors-decoration {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 60px;
+  opacity: 0.15;
+}
+
+.door-svg {
+  width: 40px;
+  height: 70px;
+}
+
+.door-svg:nth-child(1) { transform: scale(0.6); opacity: 0.4; }
+.door-svg:nth-child(2) { transform: scale(0.8); opacity: 0.6; }
+.door-svg:nth-child(3) { transform: scale(1); opacity: 1; }
+.door-svg:nth-child(4) { transform: scale(0.8); opacity: 0.6; }
+.door-svg:nth-child(5) { transform: scale(0.6); opacity: 0.4; }
+
+.isolated {
+  font-size: 1.1em;
+  color: var(--text-dim);
+  margin: 32px 0;
+  font-style: italic;
+}
+
+/* ========================
+   CARD QUOTE BLOCKS
+   ======================== */
+.card-quote {
+  background: linear-gradient(135deg, var(--bg-card) 0%, rgba(123, 79, 191, 0.08) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.1);
+  padding: 44px 40px;
+  margin: 48px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-quote::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0.4;
+}
+
+.card-quote .corner {
+  position: absolute;
+  font-size: 3rem;
+  opacity: 0.06;
+  line-height: 1;
+}
+.card-quote .corner-tl { top: 8px; left: 12px; color: var(--red); }
+.card-quote .corner-br { bottom: 8px; right: 12px; color: var(--red); transform: rotate(180deg); }
+
+.card-quote p {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.4em;
+  color: var(--gold);
+  text-align: center;
+  margin-bottom: 0;
+  line-height: 1.6;
+}
+
+/* ========================
+   3. LOOKING GLASS — DIAGNÓSTICO
+   ======================== */
+.looking-glass {
+  padding: 100px 0;
+  position: relative;
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(123, 79, 191, 0.08) 0%, transparent 60%),
+    linear-gradient(180deg, var(--bg-void) 0%, var(--bg-purple) 50%, var(--bg-void) 100%);
+}
+
+/* Mirror frame */
+.mirror-frame {
+  max-width: 600px;
+  margin: 48px auto;
+  padding: 48px 40px;
+  border: 2px solid rgba(123, 79, 191, 0.2);
+  border-radius: 120px 120px 20px 20px;
+  position: relative;
+  background: rgba(123, 79, 191, 0.03);
+  text-align: center;
+}
+
+.mirror-frame::before {
+  content: '🪞';
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2rem;
+  background: var(--bg-void);
+  padding: 0 16px;
+}
+
+.mirror-frame .highlight {
+  color: var(--gold-bright);
+  font-weight: 600;
+  font-size: 1.15em;
+}
+
+/* ========================
+   CHESS FLOOR
+   ======================== */
+.chess-wide {
+  overflow: hidden;
+  height: 60px;
+  position: relative;
+  opacity: 0.08;
+}
+
+.chess-grid {
+  display: grid;
+  grid-template-columns: repeat(40, 1fr);
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  transform: perspective(400px) rotateX(55deg);
+  transform-origin: bottom center;
+}
+
+.chess-grid span {
+  aspect-ratio: 1;
+  display: block;
+}
+
+.chess-grid span:nth-child(odd) { background: var(--gold); }
+
+/* ========================
+   4. MAD TEA PARTY — O QUE É
+   ======================== */
+.tea-party {
+  padding: 100px 0;
+  position: relative;
+  background:
+    linear-gradient(180deg, var(--bg-void) 0%, var(--bg-deep) 30%, var(--bg-deep) 70%, var(--bg-void) 100%);
+}
+
+/* Teacup decorations */
+.teacups {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  margin-bottom: 48px;
+  opacity: 0.12;
+  font-size: 2.4rem;
+}
+
+.teacup { animation: teaSteam 3s ease-in-out infinite; display: inline-block; }
+.teacup:nth-child(1) { animation-delay: 0s; }
+.teacup:nth-child(2) { animation-delay: 0.5s; }
+.teacup:nth-child(3) { animation-delay: 1s; }
+
+@keyframes teaSteam {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-4px) rotate(-3deg); }
+  75% { transform: translateY(-2px) rotate(3deg); }
+}
+
+/* ========================
+   5. CLOCK TOWER — SEMANAS
+   ======================== */
+.clock-tower {
+  padding: 100px 0;
+  position: relative;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.06) 0%, transparent 50%),
+    linear-gradient(180deg, var(--bg-void) 0%, var(--bg-purple) 50%, var(--bg-void) 100%);
+}
+
+/* Large clock SVG */
+.clock-svg-wrap {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.clock-svg {
+  width: 120px;
+  height: 120px;
+  animation: clockSwing 4s ease-in-out infinite;
+}
+
+@keyframes clockSwing {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(2deg); }
+}
+
+/* Week cards */
+.week-card {
+  background: linear-gradient(135deg, var(--bg-card) 0%, rgba(123, 79, 191, 0.06) 100%);
+  border: 1px solid rgba(123, 79, 191, 0.1);
+  padding: 36px 40px;
+  margin-bottom: 28px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease;
+}
+
+.week-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0;
+  width: 4px;
+  height: 100%;
+  transition: all 0.4s ease;
+}
+
+.week-card:nth-child(1)::before { background: var(--purple-bright); }
+.week-card:nth-child(2)::before { background: var(--gold); }
+.week-card:nth-child(3)::before { background: var(--teal); }
+.week-card:nth-child(4)::before { background: var(--red); }
+
+.week-card:hover {
+  transform: translateX(8px);
+  background: var(--bg-card-glow);
+  border-color: rgba(212, 175, 55, 0.15);
+}
+
+.week-card .week-number {
+  position: absolute;
+  top: 16px; right: 20px;
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  font-weight: 700;
+  opacity: 0.04;
+  color: var(--white);
+}
+
+.week-card .week-tag {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 4px 14px;
+  margin-bottom: 14px;
+  border: 1px solid;
+}
+
+.week-card:nth-child(1) .week-tag { color: var(--purple-bright); border-color: rgba(123,79,191,0.3); }
+.week-card:nth-child(2) .week-tag { color: var(--gold); border-color: rgba(212,175,55,0.3); }
+.week-card:nth-child(3) .week-tag { color: var(--teal); border-color: rgba(48,184,160,0.3); }
+.week-card:nth-child(4) .week-tag { color: var(--red); border-color: rgba(196,40,71,0.3); }
+
+.week-card h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.35rem;
+  color: var(--white);
+  margin-bottom: 10px;
+}
+
+.week-card p {
+  color: var(--text-dim);
+  margin-bottom: 0;
+  font-size: 0.95rem;
+}
+
+.week-note {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  margin-top: 32px;
+  padding: 20px 24px;
+  border-left: 2px solid var(--purple-deep);
+  background: rgba(123, 79, 191, 0.03);
+}
+
+/* ========================
+   6. CHESHIRE CAT — PRA QUEM É
+   ======================== */
+.cheshire {
+  padding: 100px 0;
+  position: relative;
+  background:
+    radial-gradient(ellipse at 40% 30%, rgba(123, 79, 191, 0.1) 0%, transparent 50%),
+    linear-gradient(180deg, var(--bg-void) 0%, var(--bg-deep) 50%, var(--bg-void) 100%);
+}
+
+/* Cheshire grin SVG */
+.cheshire-grin {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.grin-svg {
+  width: 160px;
+  height: 60px;
+  opacity: 0.15;
+  animation: grinAppear 6s ease-in-out infinite;
+}
+
+@keyframes grinAppear {
+  0%, 100% { opacity: 0.08; filter: blur(1px); }
+  50% { opacity: 0.2; filter: blur(0px); }
+}
+
+.deny-item {
+  padding: 16px 0 16px 36px;
+  position: relative;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(196, 40, 71, 0.06);
+}
+
+.deny-item::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 50%;
+  transform: translateY(-50%);
+  width: 18px; height: 18px;
+  border: 1.5px solid var(--red);
+  border-radius: 50%;
+  opacity: 0.4;
+}
+
+.deny-item::after {
+  content: '×';
+  position: absolute;
+  left: 4px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.75rem;
+  color: var(--red);
+  font-weight: 700;
+  opacity: 0.6;
+}
+
+.welcome-item {
+  padding: 24px 0 16px 36px;
+  position: relative;
+  color: var(--gold);
+  font-weight: 400;
+  margin-top: 16px;
+}
+
+.welcome-item::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 60%;
+  transform: translateY(-50%);
+  width: 18px; height: 18px;
+  border: 1.5px solid var(--gold);
+  border-radius: 50%;
+  opacity: 0.6;
+}
+
+.welcome-item::after {
+  content: '✓';
+  position: absolute;
+  left: 3px; top: 60%;
+  transform: translateY(-50%);
+  font-size: 0.7rem;
+  color: var(--gold);
+  font-weight: 700;
+}
+
+/* ========================
+   QUOTE BREAK — full width
+   ======================== */
+.quote-break {
+  padding: 80px 28px;
+  text-align: center;
+  position: relative;
+  background: radial-gradient(ellipse at 50% 50%, rgba(212, 175, 55, 0.04) 0%, transparent 60%);
+}
+
+.quote-break .big-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(1.6rem, 4vw, 2.8rem);
+  color: var(--gold);
+  opacity: 0.7;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.4;
+}
+
+.quote-break .quote-attr {
+  margin-top: 16px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+}
+
+/* ========================
+   7. THE GARDEN — BIBLIOTECA + TEMPLATES
+   ======================== */
+.garden {
+  padding: 100px 0;
+  position: relative;
+  background:
+    radial-gradient(circle at 30% 50%, rgba(48, 184, 160, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 70% 30%, rgba(212, 175, 55, 0.04) 0%, transparent 40%),
+    linear-gradient(180deg, var(--bg-void) 0%, var(--bg-deep) 30%, var(--bg-deep) 70%, var(--bg-void) 100%);
+}
+
+/* Rose decorations */
+.roses {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 48px;
+}
+
+.rose {
+  font-size: 1.6rem;
+  opacity: 0.12;
+  animation: rosePaint 5s ease-in-out infinite;
+}
+
+.rose:nth-child(1) { animation-delay: 0s; }
+.rose:nth-child(2) { animation-delay: 0.7s; }
+.rose:nth-child(3) { animation-delay: 1.4s; }
+.rose:nth-child(4) { animation-delay: 2.1s; }
+.rose:nth-child(5) { animation-delay: 2.8s; }
+
+@keyframes rosePaint {
+  0%, 100% { opacity: 0.08; filter: grayscale(1); }
+  50% { opacity: 0.2; filter: grayscale(0); }
+}
+
+.template-block {
+  padding: 24px 28px;
+  margin-bottom: 16px;
+  border-left: 3px solid var(--teal);
+  background: rgba(48, 184, 160, 0.03);
+  transition: all 0.3s ease;
+}
+
+.template-block:hover {
+  border-left-color: var(--gold);
+  background: rgba(212, 175, 55, 0.03);
+  transform: translateX(4px);
+}
+
+.template-block strong { color: var(--teal); }
+.template-block:hover strong { color: var(--gold); }
+
+.template-block p { margin-bottom: 0; color: var(--text-dim); font-size: 0.95rem; }
+
+/* ========================
+   8. THE QUEEN'S COURT — PREÇO
+   ======================== */
+.queens-court {
+  padding: 100px 0;
+  position: relative;
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(196, 40, 71, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 0%, rgba(212, 175, 55, 0.08) 0%, transparent 40%),
+    linear-gradient(180deg, var(--bg-void) 0%, var(--bg-purple) 40%, var(--bg-deep) 70%, var(--bg-void) 100%);
+}
+
+/* Crown decoration */
+.crown-decoration {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.crown-svg {
+  width: 80px;
+  height: 50px;
+  opacity: 0.25;
+}
+
+/* Stack */
+.stack-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(123, 79, 191, 0.06);
+  transition: all 0.2s ease;
+}
+
+.stack-item:hover { padding-left: 12px; }
+.stack-item:last-child { border-bottom: none; }
+.stack-item .item-name { flex: 1; padding-right: 20px; }
+
+.stack-item .item-value {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  text-decoration: line-through;
+  white-space: nowrap;
+}
+
+.stack-total {
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 2px solid var(--gold-dim);
+  text-align: center;
+  position: relative;
+}
+
+.stack-total .old-price {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  text-decoration: line-through;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.stack-total .real-price {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  color: var(--gold-bright);
+  font-weight: 700;
+  text-shadow: 0 0 40px var(--gold-glow);
+}
+
+/* Price box */
+.price-box {
+  text-align: center;
+  background:
+    radial-gradient(ellipse at center, rgba(212, 175, 55, 0.06) 0%, transparent 70%),
+    var(--bg-card);
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  padding: 64px 40px;
+  margin: 56px 0;
+  position: relative;
+}
+
+.price-box .crown-corners {
+  position: absolute;
+  font-size: 1.8rem;
+  opacity: 0.08;
+  color: var(--gold);
+}
+
+.price-box .cc-tl { top: 16px; left: 20px; }
+.price-box .cc-tr { top: 16px; right: 20px; transform: scaleX(-1); }
+.price-box .cc-bl { bottom: 16px; left: 20px; transform: scaleY(-1); }
+.price-box .cc-br { bottom: 16px; right: 20px; transform: scale(-1); }
+
+.price-box .installment { font-size: 0.95rem; color: var(--text-dim); margin-bottom: 6px; }
+
+.price-box .price-main {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3.5rem, 8vw, 5rem);
+  color: var(--gold-bright);
+  font-weight: 700;
+  line-height: 1;
+  text-shadow: 0 0 60px var(--gold-glow);
+}
+
+.price-box .price-main span { font-size: 1.5rem; vertical-align: super; }
+.price-box .price-alt { font-size: 0.85rem; color: var(--text-muted); margin-top: 12px; }
+
+/* ========================
+   GUARANTEE
+   ======================== */
+.guarantee-section {
+  padding: 80px 0;
+  text-align: center;
+  background: radial-gradient(circle at 50% 50%, rgba(48, 184, 160, 0.04) 0%, transparent 50%);
+}
+
+.shield-svg {
+  width: 90px;
+  height: 100px;
+  margin-bottom: 32px;
+}
+
+/* ========================
+   TRANSITION BOX
+   ======================== */
+.transition-box {
+  background: linear-gradient(135deg, var(--bg-card) 0%, rgba(48, 184, 160, 0.04) 100%);
+  border: 1px solid rgba(48, 184, 160, 0.1);
+  border-left: 4px solid var(--teal);
+  padding: 48px 40px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* ========================
+   9. ENDGAME — FECHAMENTO
+   ======================== */
+.endgame {
+  padding: 120px 0;
+  text-align: center;
+  position: relative;
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
+    linear-gradient(180deg, var(--bg-void) 0%, var(--bg-purple) 50%, var(--bg-void) 100%);
+}
+
+/* ========================
+   FOOTER
+   ======================== */
+footer {
+  text-align: center;
+  padding: 80px 28px 60px;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  background: var(--bg-void);
+}
+
+.footer-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  color: var(--gold-dim);
+  font-size: 1.15rem;
+  margin-bottom: 24px;
+}
+
+.footer-suits {
+  margin-top: 24px;
+  font-size: 1.1rem;
+  letter-spacing: 0.6em;
+  opacity: 0.12;
+}
+
+footer a { color: var(--gold-dim); text-decoration: none; }
+
+/* ========================
+   RESPONSIVE
+   ======================== */
+@media (max-width: 640px) {
+  .section-inner { padding: 0 20px; }
+  .rabbit-hole { min-height: 90vh; padding: 40px 20px; }
+  .week-card { padding: 28px 24px; }
+  .stack-item { flex-direction: column; gap: 4px; }
+  .stack-item .item-value { text-align: left; }
+  .mirror-frame { padding: 36px 24px; border-radius: 80px 80px 16px 16px; }
+  .card-quote { padding: 32px 24px; }
+  .price-box { padding: 48px 24px; }
+  .template-block { padding: 20px 20px; }
+  .transition-box { padding: 36px 24px; margin: 0 20px; }
+  .doors-decoration { display: none; }
+  .teacups { font-size: 1.8rem; gap: 16px; }
+  .compass-hero { width: 70px; height: 70px; }
+}
+</style>
+</head>
+<body>
+
+<!-- PARTICLES -->
+<canvas id="particles"></canvas>
+
+<div class="page-content">
+
+<!-- BANNER -->
+<div class="banner">
+  ♦ Próxima turma: Março 2026 &mdash; 18 vagas ♦
+</div>
+
+<!-- ================================
+     CHAPTER 1: THE RABBIT HOLE
+     ================================ -->
+<section class="rabbit-hole">
+  <!-- Falling cards -->
+  <div class="falling-cards">
+    <span class="falling-card">♠</span>
+    <span class="falling-card">♥</span>
+    <span class="falling-card">♦</span>
+    <span class="falling-card">♣</span>
+    <span class="falling-card">♠</span>
+    <span class="falling-card">♥</span>
+    <span class="falling-card">♦</span>
+    <span class="falling-card">♣</span>
+    <span class="falling-card">♠</span>
+    <span class="falling-card">♥</span>
+    <span class="falling-card">♦</span>
+    <span class="falling-card">♣</span>
+  </div>
+
+  <!-- Compass SVG -->
+  <svg class="compass-hero" viewBox="0 0 100 100" fill="none">
+    <circle cx="50" cy="50" r="46" stroke="#d4af37" stroke-width="1" opacity="0.4"/>
+    <circle cx="50" cy="50" r="42" stroke="#d4af37" stroke-width="0.5" stroke-dasharray="3 5" opacity="0.3"/>
+    <circle cx="50" cy="50" r="38" stroke="#7b4fbf" stroke-width="0.3" opacity="0.2"/>
+    <g class="compass-inner">
+      <circle cx="50" cy="50" r="3.5" fill="#d4af37"/>
+      <polygon points="50,8 47,42 50,38 53,42" fill="#d4af37" opacity="0.8"/>
+      <polygon points="50,92 47,58 50,62 53,58" fill="#8a7235" opacity="0.4"/>
+      <polygon points="8,50 42,47 38,50 42,53" fill="#8a7235" opacity="0.3"/>
+      <polygon points="92,50 58,47 62,50 58,53" fill="#8a7235" opacity="0.3"/>
+    </g>
+    <!-- Ticks -->
+    <line x1="50" y1="4" x2="50" y2="10" stroke="#d4af37" stroke-width="1.5" opacity="0.6"/>
+    <line x1="50" y1="90" x2="50" y2="96" stroke="#d4af37" stroke-width="0.8" opacity="0.3"/>
+    <line x1="4" y1="50" x2="10" y2="50" stroke="#d4af37" stroke-width="0.8" opacity="0.3"/>
+    <line x1="90" y1="50" x2="96" y2="50" stroke="#d4af37" stroke-width="0.8" opacity="0.3"/>
+  </svg>
+
+  <h1>A Bússola</h1>
+  <h3>Quem não sabe pra onde vai, qualquer lugar serve.</h3>
+  <p class="hero-text">Você trabalha 10 horas por dia. Sabe que alguma coisa está errada. Tentou trocar de estratégia, de ferramenta, de mentor &mdash; e continua no mesmo lugar.</p>
+  <p class="hero-text">O problema nunca foi falta de esforço. <strong>Foi falta de diagnóstico.</strong></p>
+  <p class="hero-text">Em 4 semanas, você vai saber &mdash; <strong>com números, não com opinião</strong> &mdash; se o seu negócio é viável do jeito que está. E se não é, vai saber exatamente o que mudar.</p>
+  <div class="cta-wrap">
+    <a href="#preco" class="cta">Quero ter certeza</a>
+  </div>
+  <div class="scroll-hint">
+    <span>Desça pela toca</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- TUNNEL TRANSITION -->
+<div class="tunnel">
+  <div class="tunnel-rings">
+    <div class="tunnel-ring"></div>
+    <div class="tunnel-ring"></div>
+    <div class="tunnel-ring"></div>
+    <div class="tunnel-ring"></div>
+    <div class="tunnel-ring"></div>
+  </div>
+</div>
+
+<!-- ================================
+     CHAPTER 2: CORRIDOR OF DOORS
+     ================================ -->
+<div class="chapter-label">capítulo ii &mdash; o corredor das portas</div>
+
+<section class="corridor">
+  <div class="section-inner">
+    <!-- Door decorations -->
+    <div class="doors-decoration">
+      <svg class="door-svg" viewBox="0 0 40 70"><rect x="2" y="2" width="36" height="66" rx="18" ry="18" stroke="#7b4fbf" stroke-width="1" fill="none"/><circle cx="30" cy="40" r="2.5" stroke="#d4af37" stroke-width="0.8" fill="none"/></svg>
+      <svg class="door-svg" viewBox="0 0 40 70"><rect x="2" y="2" width="36" height="66" rx="18" ry="18" stroke="#7b4fbf" stroke-width="1" fill="none"/><circle cx="30" cy="40" r="2.5" stroke="#d4af37" stroke-width="0.8" fill="none"/></svg>
+      <svg class="door-svg" viewBox="0 0 40 70"><rect x="2" y="2" width="36" height="66" rx="18" ry="18" stroke="#d4af37" stroke-width="1.5" fill="none"/><circle cx="30" cy="40" r="3" stroke="#d4af37" stroke-width="1" fill="rgba(212,175,55,0.1)"/></svg>
+      <svg class="door-svg" viewBox="0 0 40 70"><rect x="2" y="2" width="36" height="66" rx="18" ry="18" stroke="#7b4fbf" stroke-width="1" fill="none"/><circle cx="30" cy="40" r="2.5" stroke="#d4af37" stroke-width="0.8" fill="none"/></svg>
+      <svg class="door-svg" viewBox="0 0 40 70"><rect x="2" y="2" width="36" height="66" rx="18" ry="18" stroke="#7b4fbf" stroke-width="1" fill="none"/><circle cx="30" cy="40" r="2.5" stroke="#d4af37" stroke-width="0.8" fill="none"/></svg>
+    </div>
+
+    <h2>Deixa eu te contar o que ninguém vai te contar.</h2>
+    <p>Você definiu sua meta de faturamento. Dividiu pelo preço que cobra. Chegou no número de clientes que precisa.</p>
+    <p class="isolated">E parou por aí.</p>
+    <p class="isolated">Todo mundo para aí.</p>
+    <p>Ninguém faz a conta seguinte: quantas horas cada cliente consome? Quantas horas você realmente tem? E quando faz essa conta &mdash; a conta que ninguém faz &mdash; descobre que a meta é <strong>matematicamente impossível</strong>.</p>
+    <p>Não é falta de disciplina.<br>Não é falta de estratégia.<br>Não é falta de marketing.</p>
+    <p>É que a conta não fecha. E nunca fechou. Você só nunca fez ela.</p>
+  </div>
+</section>
+
+<!-- ================================
+     CHAPTER 3: THE LOOKING GLASS
+     ================================ -->
+<div class="chapter-label">capítulo iii &mdash; o espelho</div>
+
+<section class="looking-glass">
+  <div class="section-inner">
+    <h2>O seu negócio tem um número que você não conhece.</h2>
+    <p>Se chama <strong class="gold">taxa de ocupação</strong>. É a relação entre o tempo que você precisa pra bater sua meta e o tempo que você realmente tem.</p>
+    <p>Se essa taxa passa de 100%, sua meta é uma ilusão. Não importa quantos cursos você compre, quantos gurus você siga, quantas manhãs produtivas você tenha.</p>
+
+    <div class="mirror-frame">
+      <p class="highlight">É matemática.<br>Não tem hack.</p>
+    </div>
+
+    <p>A maioria dos empresários que me procura opera entre 95% e 130%. Ou seja: no limite absoluto ou no impossível. E se culpam por não conseguir.</p>
+    <p>A Bússola mostra esse número. E mostra o que fazer com ele.</p>
+  </div>
+</section>
+
+<!-- CHESS -->
+<div class="chess-wide">
+  <div class="chess-grid">
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+</div>
+
+<!-- ================================
+     CHAPTER 4: THE MAD TEA PARTY
+     ================================ -->
+<div class="chapter-label">capítulo iv &mdash; o chá do chapeleiro</div>
+
+<section class="tea-party">
+  <div class="section-inner">
+    <div class="teacups">
+      <span class="teacup">🫖</span>
+      <span class="teacup">☕</span>
+      <span class="teacup">🫖</span>
+    </div>
+
+    <h2>O que é A Bússola, na prática.</h2>
+    <p>Um programa de 4 semanas onde eu vou te ajudar a fazer três coisas que você provavelmente nunca fez:</p>
+
+    <p><strong>1. Mapear quanto tempo o seu negócio realmente consome.</strong><br>
+    Não o que você acha. O que é. Com cada tarefa, cada periodicidade, cada hora contada. Sem arredondar, sem romantizar.</p>
+
+    <p><strong>2. Descobrir se o seu preço está certo.</strong><br>
+    Quanto custa pra você entregar? Quanto o mercado cobra? Quanto o seu cliente percebe de valor? Três números, três pilares. A maioria só conhece um &mdash; ou nenhum.</p>
+
+    <p><strong>3. Montar um plano de ação baseado em realidade, não em desejo.</strong><br>
+    Se o diagnóstico mostra que precisa mudar preço &mdash; você vai saber como. Se mostra que precisa cortar escopo &mdash; vai saber o quê. Se mostra que precisa contratar &mdash; vai saber pra qual função.</p>
+
+    <div class="card-quote">
+      <span class="corner corner-tl">♠</span>
+      <span class="corner corner-br">♠</span>
+      <p>Sem fórmula mágica. Sem &ldquo;acredite no seu potencial&rdquo;.<br>Com uma planilha, uma calculadora e a verdade.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================================
+     CHAPTER 5: THE CLOCK TOWER
+     ================================ -->
+<div class="chapter-label">capítulo v &mdash; a torre do relógio</div>
+
+<section class="clock-tower">
+  <div class="section-inner">
+    <!-- Clock SVG -->
+    <div class="clock-svg-wrap">
+      <svg class="clock-svg" viewBox="0 0 120 140" fill="none">
+        <!-- Pendulum string -->
+        <line x1="60" y1="95" x2="60" y2="125" stroke="#8a7235" stroke-width="0.8"/>
+        <circle cx="60" cy="130" r="5" stroke="#d4af37" stroke-width="1" fill="rgba(212,175,55,0.05)"/>
+        <!-- Clock body -->
+        <circle cx="60" cy="55" r="48" stroke="#d4af37" stroke-width="1.5" fill="none" opacity="0.3"/>
+        <circle cx="60" cy="55" r="42" stroke="#7b4fbf" stroke-width="0.5" fill="none" opacity="0.2"/>
+        <!-- Hour markers -->
+        <circle cx="60" cy="15" r="2" fill="#d4af37" opacity="0.5"/>
+        <circle cx="100" cy="55" r="2" fill="#d4af37" opacity="0.3"/>
+        <circle cx="60" cy="95" r="2" fill="#d4af37" opacity="0.3"/>
+        <circle cx="20" cy="55" r="2" fill="#d4af37" opacity="0.3"/>
+        <!-- Hands -->
+        <line x1="60" y1="55" x2="60" y2="22" stroke="#d4af37" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+        <line x1="60" y1="55" x2="82" y2="45" stroke="#d4af37" stroke-width="1.2" stroke-linecap="round" opacity="0.4"/>
+        <circle cx="60" cy="55" r="3" fill="#d4af37" opacity="0.5"/>
+      </svg>
+    </div>
+
+    <h2>4 semanas. 4 calls. 1 diagnóstico completo.</h2>
+
+    <div class="week-card">
+      <span class="week-number">01</span>
+      <span class="week-tag">Semana 1</span>
+      <h4>Raio-X do Modelo</h4>
+      <p>Você mapeia a realidade do seu negócio como ele é hoje. O que vende, pra quem, quanto cobra, quantas horas trabalha. Sem filtro.</p>
+    </div>
+
+    <div class="week-card">
+      <span class="week-number">02</span>
+      <span class="week-tag">Semana 2</span>
+      <h4>A Conta do Tempo</h4>
+      <p>Você aplica a Matriz de Horários. Descobre sua taxa de ocupação real, seu teto de faturamento, e o diagnóstico: meta ilusória? Operação estrangulada? Precificação suicida? Gargalo invisível?</p>
+    </div>
+
+    <div class="week-card">
+      <span class="week-number">03</span>
+      <span class="week-tag">Semana 3</span>
+      <h4>O Preço Certo</h4>
+      <p>Você calcula os três pilares do preço: piso (custo), referência (mercado) e teto (valor percebido). Descobre se está cobrando certo &mdash; ou se está pagando pra trabalhar.</p>
+    </div>
+
+    <div class="week-card">
+      <span class="week-number">04</span>
+      <span class="week-tag">Semana 4</span>
+      <h4>O Mapa da Saída</h4>
+      <p>Você cruza tudo e monta o plano: quais alavancas mexer, quais ações tomar nos próximos 30 dias, e o que você consegue fazer sozinho vs. o que precisa de acompanhamento.</p>
+    </div>
+
+    <div class="week-note">Cada semana tem: conteúdo gravado na área de membros + exercício prático + call em grupo comigo (60 minutos) onde eu faço diagnóstico ao vivo.</div>
+  </div>
+</section>
+
+<!-- QUOTE BREAK -->
+<div class="quote-break">
+  <p class="big-quote">&ldquo;We&rsquo;re all mad here.&rdquo;</p>
+  <p class="quote-attr">&mdash; Cheshire Cat</p>
+</div>
+
+<!-- ================================
+     CHAPTER 6: THE CHESHIRE CAT
+     ================================ -->
+<div class="chapter-label">capítulo vi &mdash; o gato de cheshire</div>
+
+<section class="cheshire">
+  <div class="section-inner">
+    <!-- Cheshire grin -->
+    <div class="cheshire-grin">
+      <svg class="grin-svg" viewBox="0 0 160 60" fill="none">
+        <path d="M10 25 Q40 55 80 50 Q120 45 150 25" stroke="#7b4fbf" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <!-- Teeth -->
+        <line x1="35" y1="38" x2="38" y2="44" stroke="#7b4fbf" stroke-width="1" opacity="0.5"/>
+        <line x1="50" y1="44" x2="52" y2="50" stroke="#7b4fbf" stroke-width="1" opacity="0.5"/>
+        <line x1="65" y1="47" x2="66" y2="53" stroke="#7b4fbf" stroke-width="1" opacity="0.5"/>
+        <line x1="80" y1="49" x2="80" y2="55" stroke="#7b4fbf" stroke-width="1" opacity="0.5"/>
+        <line x1="95" y1="47" x2="94" y2="53" stroke="#7b4fbf" stroke-width="1" opacity="0.5"/>
+        <line x1="110" y1="44" x2="108" y2="50" stroke="#7b4fbf" stroke-width="1" opacity="0.5"/>
+        <line x1="125" y1="38" x2="122" y2="44" stroke="#7b4fbf" stroke-width="1" opacity="0.5"/>
+        <!-- Eyes -->
+        <ellipse cx="55" cy="15" rx="8" ry="5" stroke="#7b4fbf" stroke-width="1" fill="none" opacity="0.4"/>
+        <ellipse cx="105" cy="15" rx="8" ry="5" stroke="#7b4fbf" stroke-width="1" fill="none" opacity="0.4"/>
+        <circle cx="55" cy="15" r="2" fill="#7b4fbf" opacity="0.3"/>
+        <circle cx="105" cy="15" r="2" fill="#7b4fbf" opacity="0.3"/>
+      </svg>
+    </div>
+
+    <h2>Isso não é pra todo mundo.</h2>
+    <p>A Bússola foi pensada pra quem já tem um negócio rodando &mdash; agência, consultoria, mentoria, prestação de serviço &mdash; fatura entre R$20k e R$150k por mês, e sente que algo não encaixa.</p>
+    <p>Trabalha demais. A conta é apertada. Já tentou de tudo. E começa a desconfiar que o problema não é o que faz, mas como o negócio está montado.</p>
+
+    <div style="margin-top: 36px;">
+      <div class="deny-item">Se você está começando agora e precisa do básico, isso não é pra você.</div>
+      <div class="deny-item">Se você quer uma resposta rápida e fácil, isso não é pra você.</div>
+      <div class="deny-item">Se você não está disposto a olhar pros números reais, isso não é pra você.</div>
+      <div class="welcome-item">Agora, se você quer saber a verdade sobre o seu próprio negócio &mdash; mesmo que doa &mdash; bem-vindo.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================
+     CHAPTER 7: THE GARDEN
+     ================================ -->
+<div class="chapter-label">capítulo vii &mdash; o jardim da rainha</div>
+
+<section class="garden">
+  <div class="section-inner">
+    <div class="roses">
+      <span class="rose">🌹</span>
+      <span class="rose">🌹</span>
+      <span class="rose">🌹</span>
+      <span class="rose">🌹</span>
+      <span class="rose">🌹</span>
+    </div>
+
+    <h2>Antes de fazer o seu, veja o de quem já passou por isso.</h2>
+    <p>Você vai receber acesso a 10 casos detalhados de empresários com diagnósticos diferentes. Donos de agência que descobriram que a meta era impossível. Mentoras que entenderam que o modelo tinha teto. Prestadores que perceberam que estavam trabalhando de graça nas iterações infinitas. Veteranos que nunca reajustaram em 8 anos.</p>
+    <p>Cada caso tem os números, o diagnóstico e a revelação. Você vai ler e se reconhecer em pelo menos dois ou três.</p>
+
+    <h2 style="margin-top: 64px;">Ferramentas pra quando o diagnóstico pede ação.</h2>
+    <p>Três templates prontos pra usar no dia seguinte:</p>
+
+    <div class="template-block">
+      <strong>Conversa de reajuste de preço</strong>
+      <p>Quando a Matriz mostra que você cobra menos do que deveria e precisa falar com o cliente sem perder ele.</p>
+    </div>
+    <div class="template-block">
+      <strong>Redefinição de escopo</strong>
+      <p>Quando você descobre que entrega o dobro do combinado e precisa reorganizar o que está incluído e o que é adicional.</p>
+    </div>
+    <div class="template-block">
+      <strong>Decisão calculada de contratação</strong>
+      <p>Quando os números mostram que precisa de mais capacidade, mas você tem trauma de contratar. O template mostra se precisa, pra quê, e se a conta fecha.</p>
+    </div>
+
+    <h2 style="margin-top: 64px;">O que mais vem junto.</h2>
+    <p><strong>30 dias de acesso à base completa do Íntegros</strong><br>
+    Todo o conteúdo, frameworks e ferramentas do programa de acompanhamento de R$30.000/ano &mdash; aberto pra você por 30 dias. Pra ir além do diagnóstico e começar a implementar antes mesmo de decidir o próximo passo.</p>
+    <p><strong>Gravação das 4 calls</strong><br>
+    Pra revisitar quando precisar. Às vezes o diagnóstico faz mais sentido na segunda vez.</p>
+  </div>
+</section>
+
+<!-- GUARANTEE -->
+<section class="guarantee-section">
+  <div class="section-inner">
+    <svg class="shield-svg" viewBox="0 0 90 100" fill="none">
+      <path d="M45 5 L80 22 L80 55 Q80 82 45 95 Q10 82 10 55 L10 22 Z" stroke="#d4af37" stroke-width="1.5" fill="none"/>
+      <path d="M45 15 L68 28 L68 52 Q68 72 45 82 Q22 72 22 52 L22 28 Z" stroke="#8a7235" stroke-width="0.8" fill="rgba(212,175,55,0.02)"/>
+      <path d="M45 25 L58 33 L58 50 Q58 63 45 70 Q32 63 32 50 L32 33 Z" stroke="#d4af37" stroke-width="0.5" fill="rgba(212,175,55,0.03)"/>
+      <text x="45" y="55" text-anchor="middle" fill="#d4af37" font-size="22" font-family="serif">✓</text>
+    </svg>
+    <h2>Clareza ou seu dinheiro de volta.</h2>
+    <p>Se ao final das 4 semanas, tendo feito os exercícios, você não tiver clareza sobre a viabilidade do seu modelo e um plano concreto de ação &mdash; eu devolvo 100%.</p>
+    <p>Eu não tenho problema em devolver. Tenho problema em entregar um programa que não funciona.</p>
+  </div>
+</section>
+
+<!-- CHESS -->
+<div class="chess-wide">
+  <div class="chess-grid">
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+</div>
+
+<!-- ================================
+     CHAPTER 8: THE QUEEN'S COURT
+     ================================ -->
+<div class="chapter-label">capítulo viii &mdash; a corte da rainha</div>
+
+<section class="queens-court" id="preco">
+  <div class="section-inner">
+    <!-- Crown SVG -->
+    <div class="crown-decoration">
+      <svg class="crown-svg" viewBox="0 0 80 50" fill="none">
+        <path d="M5 40 L5 15 L20 28 L40 5 L60 28 L75 15 L75 40 Z" stroke="#d4af37" stroke-width="1.5" fill="rgba(212,175,55,0.03)"/>
+        <circle cx="5" cy="13" r="3" fill="#d4af37" opacity="0.4"/>
+        <circle cx="40" cy="3" r="3" fill="#d4af37" opacity="0.6"/>
+        <circle cx="75" cy="13" r="3" fill="#d4af37" opacity="0.4"/>
+        <line x1="5" y1="42" x2="75" y2="42" stroke="#d4af37" stroke-width="1" opacity="0.3"/>
+      </svg>
+    </div>
+
+    <h2>É isso que está na mesa:</h2>
+
+    <div class="stack-item">
+      <span class="item-name">4 calls em grupo ao vivo comigo (60min cada)</span>
+      <span class="item-value">R$ 2.000</span>
+    </div>
+    <div class="stack-item">
+      <span class="item-name">Área de membros com conteúdo gravado + exercícios</span>
+      <span class="item-value">R$ 500</span>
+    </div>
+    <div class="stack-item">
+      <span class="item-name">Grupo no WhatsApp durante as 4 semanas</span>
+      <span class="item-value"></span>
+    </div>
+    <div class="stack-item">
+      <span class="item-name">Planilha da Matriz de Horários (com fórmulas prontas)</span>
+      <span class="item-value">R$ 300</span>
+    </div>
+    <div class="stack-item">
+      <span class="item-name">Calculadora de Precificação CVM</span>
+      <span class="item-value">R$ 300</span>
+    </div>
+    <div class="stack-item">
+      <span class="item-name">Biblioteca de 10 Cases com diagnósticos reais</span>
+      <span class="item-value">R$ 200</span>
+    </div>
+    <div class="stack-item">
+      <span class="item-name">3 Templates de Ação (reajuste, escopo, contratação)</span>
+      <span class="item-value">R$ 400</span>
+    </div>
+    <div class="stack-item">
+      <span class="item-name">30 dias de acesso à base completa do Íntegros (R$30k/ano)</span>
+      <span class="item-value">R$ 2.500</span>
+    </div>
+    <div class="stack-item">
+      <span class="item-name">Gravação das 4 calls</span>
+      <span class="item-value"></span>
+    </div>
+    <div class="stack-item">
+      <span class="item-name">Garantia de clareza ou dinheiro de volta</span>
+      <span class="item-value"></span>
+    </div>
+
+    <div class="stack-total">
+      <span class="old-price">Valor real: R$ 6.200</span>
+      <span class="real-price">R$ 497</span>
+    </div>
+
+    <h2 style="margin-top: 64px;">Quanto vale saber a verdade sobre o seu negócio?</h2>
+    <p>A maioria dos empresários que passa pela Bússola descobre que está perdendo milhares por mês operando o modelo errado. Alguns descobrem que estão cobrando metade do que deveriam. Outros descobrem que um único cliente consome mais tempo do que todos os outros juntos.</p>
+
+    <div class="price-box">
+      <span class="crown-corners cc-tl">♛</span>
+      <span class="crown-corners cc-tr">♛</span>
+      <span class="crown-corners cc-bl">♛</span>
+      <span class="crown-corners cc-br">♛</span>
+      <div class="installment">12x de</div>
+      <div class="price-main"><span>R$</span> 49,70</div>
+      <div class="price-alt">ou R$ 497,00 à vista</div>
+    </div>
+
+    <div class="cta-wrap">
+      <a href="#" class="cta">Quero ter certeza</a>
+    </div>
+  </div>
+</section>
+
+<!-- TRANSITION -->
+<section style="padding: 80px 0;">
+  <div class="transition-box">
+    <h2 style="font-size: 1.4rem;">E depois da Bússola?</h2>
+    <p>Diagnóstico sem implementação é frustração. Se no final das 4 semanas você quiser acompanhamento pra implementar o que o plano mostrou, o <strong>Fundamentos</strong> existe pra isso &mdash; 16 semanas de reestruturação completa.</p>
+    <p>Alunos da Bússola entram por R$3.500 (em vez de R$4.000). Os R$497 que você investiu aqui voltam como desconto. Mais uma call individual comigo de 30 minutos.</p>
+    <p style="color: var(--text-muted); margin-bottom: 0;">Mas isso é escolha sua. A Bússola é produto completo. Você sai com diagnóstico e plano. Se quiser implementar sozinho, vai com o mapa na mão.</p>
+  </div>
+</section>
+
+<!-- ================================
+     CHAPTER 9: ENDGAME
+     ================================ -->
+<section class="endgame">
+  <div class="section-inner">
+    <h2>Cada mês que passa operando sem diagnóstico é um mês que você não recupera.</h2>
+    <p>Não é sobre urgência. É sobre matemática.</p>
+    <p>Se a sua taxa de ocupação está acima de 100%, você está se matando por uma meta que nunca ia funcionar do jeito que está. E vai continuar se matando até olhar pros números.</p>
+
+    <div class="card-quote" style="margin: 48px auto; max-width: 600px;">
+      <span class="corner corner-tl">♥</span>
+      <span class="corner corner-br">♥</span>
+      <p>A Bússola é o momento de parar e fazer a conta.</p>
+    </div>
+
+    <div class="cta-wrap" style="margin-top: 56px;">
+      <a href="#preco" class="cta">Quero ter certeza</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p class="footer-quote">&ldquo;Quem não sabe pra onde vai, qualquer lugar serve.&rdquo;</p>
+  <p>&copy; 2026 Kevin Eger &mdash; <a href="#">Íntegros</a></p>
+  <p class="footer-suits">♠ ♥ ♦ ♣</p>
+</footer>
+
+</div><!-- /page-content -->
+
+<!-- PARTICLES SCRIPT -->
+<script>
+(function() {
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  let w, h, particles = [];
+
+  function resize() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  class Particle {
+    constructor() { this.reset(); }
+    reset() {
+      this.x = Math.random() * w;
+      this.y = Math.random() * h;
+      this.vx = (Math.random() - 0.5) * 0.3;
+      this.vy = (Math.random() - 0.5) * 0.3;
+      this.r = Math.random() * 1.5 + 0.3;
+      this.alpha = Math.random() * 0.15 + 0.02;
+      this.color = Math.random() > 0.6 ? '#d4af37' : '#7b4fbf';
+    }
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      if (this.x < 0 || this.x > w || this.y < 0 || this.y > h) this.reset();
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+      ctx.fillStyle = this.color;
+      ctx.globalAlpha = this.alpha;
+      ctx.fill();
+    }
+  }
+
+  for (let i = 0; i < 60; i++) particles.push(new Particle());
+
+  function animate() {
+    ctx.clearRect(0, 0, w, h);
+    particles.forEach(p => { p.update(); p.draw(); });
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
+</script>
+
+</body>
+</html>
