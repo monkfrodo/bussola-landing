@@ -372,16 +372,39 @@ const EMAIL_HTML = `<!DOCTYPE html>
 </body>
 </html>`;
 
+const APPROVED_EVENTS = [
+  'payment_approved',
+  'approved_purchase',
+  'completed_purchase',
+  'payment_confirmed',
+];
+
+function extractCustomer(body) {
+  const source = body.customer || body.payer || body.subscriber || {};
+  const email = source.email || source.emailAddress || source.email_address || body.email;
+  const name = source.name || source.fullName || source.full_name || body.name;
+  return { email, name };
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { name, email } = req.body || {};
+  const body = req.body || {};
+  const event = body.event || body.type || body.eventType;
 
-  if (!email) {
-    return res.status(400).json({ error: 'email is required' });
+  // Se tem evento definido, só processa os aprovados
+  if (event && !APPROVED_EVENTS.includes(event)) {
+    console.log(`Ignored event: ${event}`);
+    return res.status(200).json({ ignored: true, event });
+  }
+
+  const { email, name } = extractCustomer(body);
+
+  if (!email || !email.includes('@')) {
+    return res.status(400).json({ error: 'valid email is required' });
   }
 
   try {
@@ -397,7 +420,7 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: error.message });
     }
 
-    console.log(`Email sent to ${email} (id: ${data.id})`);
+    console.log(`Email sent to ${email} (name: ${name || 'N/A'}, id: ${data.id})`);
     return res.status(200).json({ success: true, id: data.id });
   } catch (err) {
     console.error('Unexpected error:', err);
