@@ -1227,6 +1227,7 @@ footer .footer-suits {
 
 /* === RESPONSIVE === */
 @media (max-width: 640px) {
+  .banner { font-size: 0.55rem; padding: 10px 16px; letter-spacing: 0.06em; }
   section { padding: 36px 20px; }
   .hero { padding: 0 20px 50px; min-height: auto; }
   .hero-lockup { margin-bottom: 28px; }
