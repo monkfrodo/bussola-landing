@@ -386,7 +386,7 @@ export default async function handler(req, res) {
 
   try {
     const { data, error } = await resend.emails.send({
-      from: 'Kevin Eger <kevin@integros.org>',
+      from: 'Kevin Eger <kevin@somosintegros.com.br>',
       to: [email],
       subject: 'Você tá dentro. Bem-vindo à Bússola.',
       html: EMAIL_HTML,
