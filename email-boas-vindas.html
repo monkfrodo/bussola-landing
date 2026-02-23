@@ -3,177 +3,366 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bem-vindo à Bússola</title>
+<title>Bem-vindo &agrave; B&uacute;ssola</title>
 </head>
-<body style="margin: 0; padding: 0; background-color: #08070e; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+<body style="margin: 0; padding: 0; background-color: #08070e; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; -webkit-font-smoothing: antialiased;">
 
 <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color: #08070e;">
   <tr>
-    <td align="center" style="padding: 40px 16px;">
-      <table role="presentation" width="600" cellspacing="0" cellpadding="0" border="0" style="max-width: 600px; width: 100%;">
+    <td align="center" style="padding: 48px 16px 24px 16px;">
+      <table role="presentation" width="580" cellspacing="0" cellpadding="0" border="0" style="max-width: 580px; width: 100%;">
 
-        <!-- HEADER -->
+        <!-- HEADER DIAMOND -->
         <tr>
-          <td align="center" style="padding-bottom: 40px;">
-            <span style="color: #d4af37; font-size: 14px; letter-spacing: 6px; text-transform: uppercase;">♦ A Bússola ♦</span>
+          <td align="center" style="padding-bottom: 48px;">
+            <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+              <tr>
+                <td align="center">
+                  <div style="width: 48px; height: 48px; line-height: 48px; text-align: center; font-size: 22px; color: #d4af37; border: 1px solid rgba(212,175,55,0.2); border-radius: 12px; background-color: rgba(212,175,55,0.04);">&#9824;</div>
+                </td>
+              </tr>
+              <tr>
+                <td align="center" style="padding-top: 16px;">
+                  <span style="color: #5a5750; font-size: 11px; letter-spacing: 5px; text-transform: uppercase; font-weight: 500;">A B&Uacute;SSOLA</span>
+                </td>
+              </tr>
+            </table>
           </td>
         </tr>
 
-        <!-- MAIN CONTENT -->
+        <!-- WELCOME TEXT -->
         <tr>
-          <td style="background-color: #13121f; border-radius: 12px; padding: 48px 40px; border: 1px solid rgba(212, 175, 55, 0.08);">
+          <td style="padding: 0 8px;">
 
-            <p style="color: #e8e4dc; font-size: 17px; line-height: 1.7; margin: 0 0 24px 0;">
-              Pronto. Você tá dentro.
+            <p style="color: #e8e4dc; font-size: 28px; line-height: 1.3; margin: 0 0 12px 0; font-weight: 300; letter-spacing: -0.5px; font-family: Georgia, 'Times New Roman', serif;">
+              Pronto. Voc&ecirc; t&aacute; dentro.
             </p>
 
-            <p style="color: #9a968e; font-size: 16px; line-height: 1.7; margin: 0 0 24px 0;">
-              Sem enrolação: aqui embaixo tá tudo que você precisa saber pra começar. Lê com calma, salva esse e-mail e aparece na primeira call preparado.
+            <p style="color: #7a766e; font-size: 15px; line-height: 1.75; margin: 0 0 40px 0;">
+              Aqui embaixo t&aacute; tudo que voc&ecirc; precisa saber pra come&ccedil;ar.<br>
+              L&ecirc; com calma, salva esse e-mail e aparece no primeiro encontro preparado.
             </p>
 
-            <!-- QUANDO COMEÇA -->
-            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin: 32px 0;">
+          </td>
+        </tr>
+
+        <!-- CARD: QUANDO COMEÇA -->
+        <tr>
+          <td style="padding: 0 0 16px 0;">
+            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color: #111019; border-radius: 12px; border: 1px solid rgba(212,175,55,0.06);">
               <tr>
-                <td style="background-color: #0d0c16; border-radius: 8px; padding: 28px 24px; border-left: 3px solid #d4af37;">
-                  <p style="color: #d4af37; font-size: 13px; letter-spacing: 3px; text-transform: uppercase; margin: 0 0 12px 0; font-weight: 600;">Quando começa</p>
-                  <p style="color: #e8e4dc; font-size: 18px; line-height: 1.5; margin: 0 0 8px 0; font-weight: 500;">
-                    Segunda-feira, 23 de fevereiro
-                  </p>
-                  <p style="color: #9a968e; font-size: 14px; line-height: 1.6; margin: 0;">
-                    O conteúdo da Semana 1 já vai estar liberado na área de membros. Você assiste no seu tempo, faz o exercício, e na call a gente trabalha em cima do que você preencheu.
-                  </p>
-                </td>
-              </tr>
-            </table>
-
-            <!-- CRONOGRAMA -->
-            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin: 32px 0;">
-              <tr>
-                <td style="background-color: #0d0c16; border-radius: 8px; padding: 28px 24px; border-left: 3px solid #d4af37;">
-                  <p style="color: #d4af37; font-size: 13px; letter-spacing: 3px; text-transform: uppercase; margin: 0 0 16px 0; font-weight: 600;">Cronograma dos encontros</p>
-
-                  <p style="color: #9a968e; font-size: 14px; line-height: 1.6; margin: 0 0 4px 0;">
-                    São 4 encontros ao vivo em grupo, sempre às <strong style="color: #e8e4dc;">{{DIA_SEMANA}}s, {{HORARIO}}</strong>.
-                  </p>
-
-                  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-top: 16px;">
+                <td style="padding: 32px;">
+                  <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin-bottom: 16px;">
                     <tr>
-                      <td style="padding: 10px 0; border-bottom: 1px solid rgba(212,175,55,0.06);">
-                        <span style="color: #d4af37; font-size: 13px; font-weight: 600;">Semana 1</span>
-                        <span style="color: #9a968e; font-size: 13px;"> — Raio-X do Modelo</span>
-                        <span style="color: #5a5750; font-size: 12px; float: right;">{{DATA_CALL_1}}</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style="padding: 10px 0; border-bottom: 1px solid rgba(212,175,55,0.06);">
-                        <span style="color: #d4af37; font-size: 13px; font-weight: 600;">Semana 2</span>
-                        <span style="color: #9a968e; font-size: 13px;"> — A Conta do Tempo</span>
-                        <span style="color: #5a5750; font-size: 12px; float: right;">{{DATA_CALL_2}}</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style="padding: 10px 0; border-bottom: 1px solid rgba(212,175,55,0.06);">
-                        <span style="color: #d4af37; font-size: 13px; font-weight: 600;">Semana 3</span>
-                        <span style="color: #9a968e; font-size: 13px;"> — O Preço Certo</span>
-                        <span style="color: #5a5750; font-size: 12px; float: right;">{{DATA_CALL_3}}</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style="padding: 10px 0;">
-                        <span style="color: #d4af37; font-size: 13px; font-weight: 600;">Semana 4</span>
-                        <span style="color: #9a968e; font-size: 13px;"> — O Mapa da Saída</span>
-                        <span style="color: #5a5750; font-size: 12px; float: right;">{{DATA_CALL_4}}</span>
-                      </td>
+                      <td style="color: #d4af37; font-size: 16px; padding-right: 10px; vertical-align: middle;">&#9826;</td>
+                      <td style="color: #d4af37; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; font-weight: 600; vertical-align: middle;">Quando come&ccedil;a</td>
                     </tr>
                   </table>
 
-                  <p style="color: #5a5750; font-size: 13px; line-height: 1.6; margin: 16px 0 0 0;">
-                    Cada encontro dura 60 minutos. Todas as calls são gravadas.
+                  <p style="color: #e8e4dc; font-size: 20px; line-height: 1.4; margin: 0 0 12px 0; font-weight: 500; font-family: Georgia, 'Times New Roman', serif;">
+                    Quinta-feira, 26 de fevereiro &mdash; 20h
+                  </p>
+
+                  <p style="color: #7a766e; font-size: 14px; line-height: 1.7; margin: 0;">
+                    Tudo acontece ao vivo, comigo. No primeiro encontro eu explico os conceitos, a gente trabalha junto e voc&ecirc; sai com o exerc&iacute;cio da semana pra preencher. Sem hor&aacute;rio pra acabar &mdash; s&oacute; pra come&ccedil;ar.
                   </p>
                 </td>
               </tr>
             </table>
+          </td>
+        </tr>
 
-            <!-- ACESSO -->
-            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin: 32px 0;">
+        <!-- CARD: CRONOGRAMA -->
+        <tr>
+          <td style="padding: 0 0 16px 0;">
+            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color: #111019; border-radius: 12px; border: 1px solid rgba(212,175,55,0.06);">
               <tr>
-                <td style="background-color: #0d0c16; border-radius: 8px; padding: 28px 24px; border-left: 3px solid #d4af37;">
-                  <p style="color: #d4af37; font-size: 13px; letter-spacing: 3px; text-transform: uppercase; margin: 0 0 16px 0; font-weight: 600;">Seus acessos</p>
+                <td style="padding: 32px;">
+                  <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin-bottom: 16px;">
+                    <tr>
+                      <td style="color: #d4af37; font-size: 16px; padding-right: 10px; vertical-align: middle;">&#9827;</td>
+                      <td style="color: #d4af37; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; font-weight: 600; vertical-align: middle;">Cronograma</td>
+                    </tr>
+                  </table>
 
+                  <p style="color: #7a766e; font-size: 14px; line-height: 1.6; margin: 0 0 20px 0;">
+                    4 encontros ao vivo em grupo. Quintas-feiras, 20h. Sem hor&aacute;rio pra acabar.
+                  </p>
+
+                  <!-- Semana 1 -->
                   <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
                     <tr>
-                      <td style="padding: 12px 0; border-bottom: 1px solid rgba(212,175,55,0.06);">
-                        <p style="color: #e8e4dc; font-size: 14px; margin: 0 0 4px 0; font-weight: 500;">Área de membros</p>
-                        <p style="color: #9a968e; font-size: 13px; margin: 0 0 8px 0;">Vídeos, worksheets, planilhas e tudo que você precisa pra cada semana.</p>
-                        <a href="{{LINK_AREA_MEMBROS}}" style="color: #d4af37; font-size: 13px; text-decoration: none; font-weight: 500;">Acessar área de membros →</a>
+                      <td style="padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.04);">
+                        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                          <tr>
+                            <td style="width: 32px; vertical-align: top;">
+                              <div style="width: 24px; height: 24px; line-height: 24px; text-align: center; border-radius: 6px; background-color: rgba(212,175,55,0.08); color: #d4af37; font-size: 11px; font-weight: 600;">1</div>
+                            </td>
+                            <td style="vertical-align: top;">
+                              <p style="color: #e8e4dc; font-size: 14px; margin: 0; font-weight: 500;">Raio-X do Modelo</p>
+                            </td>
+                            <td style="text-align: right; vertical-align: top;">
+                              <span style="color: #5a5750; font-size: 12px;">26/02</span>
+                            </td>
+                          </tr>
+                        </table>
                       </td>
                     </tr>
+                    <!-- Semana 2 -->
                     <tr>
-                      <td style="padding: 12px 0; border-bottom: 1px solid rgba(212,175,55,0.06);">
-                        <p style="color: #e8e4dc; font-size: 14px; margin: 0 0 4px 0; font-weight: 500;">Grupo no WhatsApp</p>
-                        <p style="color: #9a968e; font-size: 13px; margin: 0 0 8px 0;">Pra dúvidas rápidas, trocas entre a turma e avisos. Entra agora.</p>
-                        <a href="{{LINK_GRUPO_WHATSAPP}}" style="color: #d4af37; font-size: 13px; text-decoration: none; font-weight: 500;">Entrar no grupo →</a>
+                      <td style="padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.04);">
+                        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                          <tr>
+                            <td style="width: 32px; vertical-align: top;">
+                              <div style="width: 24px; height: 24px; line-height: 24px; text-align: center; border-radius: 6px; background-color: rgba(212,175,55,0.08); color: #d4af37; font-size: 11px; font-weight: 600;">2</div>
+                            </td>
+                            <td style="vertical-align: top;">
+                              <p style="color: #e8e4dc; font-size: 14px; margin: 0; font-weight: 500;">A Conta do Tempo</p>
+                            </td>
+                            <td style="text-align: right; vertical-align: top;">
+                              <span style="color: #5a5750; font-size: 12px;">05/03</span>
+                            </td>
+                          </tr>
+                        </table>
                       </td>
                     </tr>
+                    <!-- Semana 3 -->
                     <tr>
-                      <td style="padding: 12px 0;">
-                        <p style="color: #e8e4dc; font-size: 14px; margin: 0 0 4px 0; font-weight: 500;">Link das calls</p>
-                        <p style="color: #9a968e; font-size: 13px; margin: 0 0 8px 0;">Sempre o mesmo link pras 4 semanas. Salva nos favoritos.</p>
-                        <a href="{{LINK_CALL}}" style="color: #d4af37; font-size: 13px; text-decoration: none; font-weight: 500;">Link do encontro →</a>
+                      <td style="padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.04);">
+                        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                          <tr>
+                            <td style="width: 32px; vertical-align: top;">
+                              <div style="width: 24px; height: 24px; line-height: 24px; text-align: center; border-radius: 6px; background-color: rgba(212,175,55,0.08); color: #d4af37; font-size: 11px; font-weight: 600;">3</div>
+                            </td>
+                            <td style="vertical-align: top;">
+                              <p style="color: #e8e4dc; font-size: 14px; margin: 0; font-weight: 500;">O Pre&ccedil;o Certo</p>
+                            </td>
+                            <td style="text-align: right; vertical-align: top;">
+                              <span style="color: #5a5750; font-size: 12px;">12/03</span>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                    <!-- Semana 4 -->
+                    <tr>
+                      <td style="padding: 14px 0;">
+                        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                          <tr>
+                            <td style="width: 32px; vertical-align: top;">
+                              <div style="width: 24px; height: 24px; line-height: 24px; text-align: center; border-radius: 6px; background-color: rgba(212,175,55,0.08); color: #d4af37; font-size: 11px; font-weight: 600;">4</div>
+                            </td>
+                            <td style="vertical-align: top;">
+                              <p style="color: #e8e4dc; font-size: 14px; margin: 0; font-weight: 500;">O Mapa da Sa&iacute;da</p>
+                            </td>
+                            <td style="text-align: right; vertical-align: top;">
+                              <span style="color: #5a5750; font-size: 12px;">19/03</span>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+
+                  <p style="color: #5a5750; font-size: 12px; line-height: 1.6; margin: 20px 0 0 0;">
+                    Todas gravadas e dispon&iacute;veis na &aacute;rea de membros depois.
+                  </p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- CARD: ACESSOS -->
+        <tr>
+          <td style="padding: 0 0 16px 0;">
+            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color: #111019; border-radius: 12px; border: 1px solid rgba(212,175,55,0.06);">
+              <tr>
+                <td style="padding: 32px;">
+                  <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin-bottom: 20px;">
+                    <tr>
+                      <td style="color: #d4af37; font-size: 16px; padding-right: 10px; vertical-align: middle;">&#9824;</td>
+                      <td style="color: #d4af37; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; font-weight: 600; vertical-align: middle;">Seus acessos</td>
+                    </tr>
+                  </table>
+
+                  <!-- WhatsApp -->
+                  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-bottom: 20px;">
+                    <tr>
+                      <td style="padding: 20px; background-color: rgba(212,175,55,0.04); border-radius: 8px; border: 1px solid rgba(212,175,55,0.08);">
+                        <p style="color: #e8e4dc; font-size: 15px; margin: 0 0 8px 0; font-weight: 600;">Grupo no WhatsApp</p>
+                        <p style="color: #7a766e; font-size: 13px; margin: 0 0 6px 0; line-height: 1.6;">&Eacute; por aqui que acontece todo o suporte da B&uacute;ssola. D&uacute;vidas, trocas entre a turma, avisos e acompanhamento.</p>
+                        <p style="color: #e8e4dc; font-size: 13px; margin: 0 0 14px 0; line-height: 1.6; font-weight: 500;">Entra agora &mdash; &eacute; o primeiro passo.</p>
+                        <!--[if mso]>
+                        <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://chat.whatsapp.com/CcB3aKK9pLwCZJwOzojmwd?mode=gi_t" style="height:40px;v-text-anchor:middle;width:180px;" arcsize="15%" strokecolor="#d4af37" fillcolor="#d4af37">
+                        <w:anchorlock/>
+                        <center style="color:#08070e;font-family:sans-serif;font-size:13px;font-weight:bold;">Entrar no grupo &rarr;</center>
+                        </v:roundrect>
+                        <![endif]-->
+                        <!--[if !mso]><!-->
+                        <a href="https://chat.whatsapp.com/CcB3aKK9pLwCZJwOzojmwd?mode=gi_t" style="display: inline-block; background-color: #d4af37; color: #08070e; font-size: 13px; font-weight: 700; text-decoration: none; padding: 10px 24px; border-radius: 6px; letter-spacing: 0.3px;">Entrar no grupo &rarr;</a>
+                        <!--<![endif]-->
+                      </td>
+                    </tr>
+                  </table>
+
+                  <!-- Area de membros -->
+                  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                    <tr>
+                      <td style="padding: 0;">
+                        <p style="color: #e8e4dc; font-size: 14px; margin: 0 0 6px 0; font-weight: 500;">&Aacute;rea de membros</p>
+                        <p style="color: #7a766e; font-size: 13px; margin: 0 0 12px 0; line-height: 1.7;">
+                          Em breve voc&ecirc; vai receber um e-mail com suas credenciais de acesso. &Eacute; l&aacute; que ficam as grava&ccedil;&otilde;es dos encontros e os exerc&iacute;cios de cada semana.
+                        </p>
+                        <p style="color: #7a766e; font-size: 13px; margin: 0; line-height: 1.7;">
+                          Voc&ecirc; tamb&eacute;m ter&aacute; acesso ao <strong style="color: #e8e4dc;">&Iacute;ntegros 30 Dias</strong>, o b&ocirc;nus que voc&ecirc; ganhou com a B&uacute;ssola. Todo o conte&uacute;do, frameworks e ferramentas do programa de R$ 30.000/ano, aberto pra voc&ecirc; por 30 dias.
+                        </p>
                       </td>
                     </tr>
                   </table>
                 </td>
               </tr>
             </table>
+          </td>
+        </tr>
 
-            <!-- O QUE FAZER AGORA -->
-            <p style="color: #e8e4dc; font-size: 15px; line-height: 1.7; margin: 32px 0 16px 0; font-weight: 500;">
-              O que fazer agora:
-            </p>
+        <!-- CARD: O QUE FAZER AGORA -->
+        <tr>
+          <td style="padding: 0 0 8px 0;">
+            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color: #111019; border-radius: 12px; border: 1px solid rgba(212,175,55,0.06);">
+              <tr>
+                <td style="padding: 32px;">
+                  <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin-bottom: 20px;">
+                    <tr>
+                      <td style="color: #d4af37; font-size: 16px; padding-right: 10px; vertical-align: middle;">&#9829;</td>
+                      <td style="color: #d4af37; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; font-weight: 600; vertical-align: middle;">O que fazer agora</td>
+                    </tr>
+                  </table>
 
-            <p style="color: #9a968e; font-size: 15px; line-height: 1.8; margin: 0 0 8px 0;">
-              1. Entra no grupo do WhatsApp<br>
-              2. Acessa a área de membros<br>
-              3. Assiste o conteúdo da Semana 1<br>
-              4. Preenche o Mapa do Modelo Atual (tá lá dentro)<br>
-              5. Aparece na call com o mapa preenchido
-            </p>
+                  <!-- Step 1 -->
+                  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                    <tr>
+                      <td style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04);">
+                        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                          <tr>
+                            <td style="width: 32px; vertical-align: top; padding-top: 1px;">
+                              <span style="color: #d4af37; font-size: 13px; font-weight: 600;">01</span>
+                            </td>
+                            <td>
+                              <p style="color: #e8e4dc; font-size: 14px; margin: 0; line-height: 1.6;"><strong>Entra no grupo do WhatsApp</strong> <span style="color: #7a766e;">&mdash; todo suporte acontece ali</span></p>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                    <!-- Step 2 -->
+                    <tr>
+                      <td style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04);">
+                        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                          <tr>
+                            <td style="width: 32px; vertical-align: top; padding-top: 1px;">
+                              <span style="color: #d4af37; font-size: 13px; font-weight: 600;">02</span>
+                            </td>
+                            <td>
+                              <p style="color: #e8e4dc; font-size: 14px; margin: 0; line-height: 1.6;">Salva as datas no calend&aacute;rio <span style="color: #5a5750;">(quintas, 20h)</span></p>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                    <!-- Step 3 -->
+                    <tr>
+                      <td style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04);">
+                        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                          <tr>
+                            <td style="width: 32px; vertical-align: top; padding-top: 1px;">
+                              <span style="color: #d4af37; font-size: 13px; font-weight: 600;">03</span>
+                            </td>
+                            <td>
+                              <p style="color: #e8e4dc; font-size: 14px; margin: 0; line-height: 1.6;">Separa um caderno ou doc pra anotar durante os encontros</p>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                    <!-- Step 4 -->
+                    <tr>
+                      <td style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04);">
+                        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                          <tr>
+                            <td style="width: 32px; vertical-align: top; padding-top: 1px;">
+                              <span style="color: #d4af37; font-size: 13px; font-weight: 600;">04</span>
+                            </td>
+                            <td>
+                              <p style="color: #e8e4dc; font-size: 14px; margin: 0; line-height: 1.6;">Preenche o Mapa do Modelo Atual</p>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                    <!-- Step 5 -->
+                    <tr>
+                      <td style="padding: 10px 0;">
+                        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                          <tr>
+                            <td style="width: 32px; vertical-align: top; padding-top: 1px;">
+                              <span style="color: #d4af37; font-size: 13px; font-weight: 600;">05</span>
+                            </td>
+                            <td>
+                              <p style="color: #e8e4dc; font-size: 14px; margin: 0; line-height: 1.6;">Aparece na quinta (26/02) &agrave;s 20h &mdash; preparado pra trabalhar</p>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
 
-            <p style="color: #9a968e; font-size: 15px; line-height: 1.7; margin: 24px 0 0 0;">
-              Quanto mais honesto você for no preenchimento, mais preciso vai ser o diagnóstico. Não inventa número, não arredonda pra cima, não coloca o que você "gostaria" de faturar. Coloca a realidade. É com ela que a gente vai trabalhar.
+        <!-- CLOSING TEXT -->
+        <tr>
+          <td style="padding: 32px 8px 0 8px;">
+            <p style="color: #7a766e; font-size: 14px; line-height: 1.8; margin: 0 0 24px 0;">
+              Quanto mais honesto voc&ecirc; for no preenchimento, mais preciso vai ser o diagn&oacute;stico. N&atilde;o inventa n&uacute;mero, n&atilde;o arredonda pra cima, n&atilde;o coloca o que voc&ecirc; &ldquo;gostaria&rdquo; de faturar. Coloca a realidade. &Eacute; com ela que a gente vai trabalhar.
             </p>
 
             <!-- SEPARATOR -->
-            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin: 36px 0;">
+            <table role="presentation" width="60" cellspacing="0" cellpadding="0" border="0" style="margin: 0 0 24px 0;">
               <tr>
-                <td style="border-top: 1px solid rgba(212, 175, 55, 0.08);"></td>
+                <td style="border-top: 1px solid rgba(212,175,55,0.15);"></td>
               </tr>
             </table>
 
-            <p style="color: #9a968e; font-size: 14px; line-height: 1.7; margin: 0;">
-              Qualquer dúvida, manda no grupo.
+            <p style="color: #7a766e; font-size: 14px; line-height: 1.7; margin: 0 0 4px 0;">
+              Qualquer d&uacute;vida, manda no grupo.
             </p>
 
-            <p style="color: #9a968e; font-size: 14px; line-height: 1.7; margin: 16px 0 0 0;">
-              Nos vemos segunda.
+            <p style="color: #e8e4dc; font-size: 15px; margin: 20px 0 0 0; font-family: Georgia, 'Times New Roman', serif; font-style: italic;">
+              Nos vemos quinta.
             </p>
 
-            <p style="color: #e8e4dc; font-size: 14px; margin: 24px 0 0 0;">
+            <p style="color: #e8e4dc; font-size: 14px; margin: 8px 0 0 0; font-weight: 500;">
               Kevin
             </p>
-
           </td>
         </tr>
 
         <!-- FOOTER -->
         <tr>
-          <td align="center" style="padding: 32px 0;">
-            <p style="color: #5a5750; font-size: 12px; margin: 0;">
-              Íntegros · Kevin Eger
+          <td align="center" style="padding: 48px 0 24px 0;">
+            <table role="presentation" width="40" cellspacing="0" cellpadding="0" border="0" style="margin-bottom: 16px;">
+              <tr>
+                <td style="border-top: 1px solid rgba(212,175,55,0.08);"></td>
+              </tr>
+            </table>
+            <p style="color: #3a3730; font-size: 11px; margin: 0; letter-spacing: 0.5px;">
+              &Iacute;ntegros &middot; Kevin Eger
             </p>
-            <p style="color: #5a5750; font-size: 11px; margin: 8px 0 0 0;">
-              <a href="{{LINK_DESCADASTRAR}}" style="color: #5a5750; text-decoration: underline;">Descadastrar</a>
+            <p style="color: #3a3730; font-size: 11px; margin: 8px 0 0 0;">
+              <a href="{{LINK_DESCADASTRAR}}" style="color: #3a3730; text-decoration: underline;">Descadastrar</a>
             </p>
           </td>
         </tr>

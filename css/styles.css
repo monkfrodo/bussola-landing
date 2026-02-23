@@ -771,6 +771,11 @@ blockquote {
   position: relative;
 }
 
+.guarantee-icon svg {
+  width: 48px;
+  height: 100px;
+}
+
 /* transition-section removed */
 
 /* === DENY LIST === */
@@ -1223,6 +1228,24 @@ footer .footer-suits {
   opacity: 0.15;
   letter-spacing: 0.5em;
   font-size: 0.9rem;
+}
+
+/* === UTILITY MODIFIERS === */
+.card-quote--standalone {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.section--centered {
+  text-align: center;
+}
+
+.cta-wrap--spaced {
+  margin-top: 48px;
+}
+
+img.logo-circle--offset {
+  object-position: 65% center;
 }
 
 /* === RESPONSIVE === */
