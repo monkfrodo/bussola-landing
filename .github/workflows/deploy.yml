@@ -9,6 +9,8 @@ jobs:
   deploy:
     name: Deploy to Production
     runs-on: ubuntu-latest
+    env:
+      APP_ENV: ${{ secrets.APP_ENV }}
 
     steps:
       - name: Deploy via SSH
@@ -18,10 +20,15 @@ jobs:
           username: ${{ secrets.DO_USER }}
           key: ${{ secrets.DO_SSH_KEY }}
           port: ${{ secrets.DO_PORT }}
+          command_timeout: 30m
+          envs: APP_ENV
           script: |
             set -e
             source ~/.nvm/nvm.sh
             cd /var/www/bussola-landing
+
+            echo "--- Updating .env ---"
+            printf '%s' "$APP_ENV" > .env
 
             echo "--- Pulling latest code ---"
             git fetch origin main
@@ -29,6 +36,8 @@ jobs:
 
             echo "--- Installing dependencies ---"
             npm ci --omit=dev
+
+
 
             echo "--- Restarting PM2 ---"
             pm2 restart bussola-webhook
