@@ -7,39 +7,55 @@ on:
 
 jobs:
   deploy:
-    name: Deploy to Production
+    name: Build and Deploy
     runs-on: ubuntu-latest
     env:
       APP_ENV: ${{ secrets.APP_ENV }}
 
     steps:
-      - name: Deploy via SSH
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+
+
+      - name: Setup SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DO_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -p ${{ secrets.DO_PORT }} -H ${{ secrets.DO_HOST }} >> ~/.ssh/known_hosts 2>/dev/null
+
+      - name: Sync to server
+        run: |
+          rsync -az --delete \
+            --exclude='.git/' \
+            --exclude='.env' \
+            --exclude='*.log' \
+            -e "ssh -i ~/.ssh/deploy_key -p ${{ secrets.DO_PORT }} -o StrictHostKeyChecking=no" \
+            ./ ${{ secrets.DO_USER }}@${{ secrets.DO_HOST }}:/var/www/bussola-landing/
+
+      - name: Write .env and restart PM2
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.DO_HOST }}
           username: ${{ secrets.DO_USER }}
           key: ${{ secrets.DO_SSH_KEY }}
           port: ${{ secrets.DO_PORT }}
-          command_timeout: 30m
+          command_timeout: 5m
           envs: APP_ENV
           script: |
             set -e
             source ~/.nvm/nvm.sh
             cd /var/www/bussola-landing
-
-            echo "--- Updating .env ---"
             printf '%s' "$APP_ENV" > .env
-
-            echo "--- Pulling latest code ---"
-            git fetch origin main
-            git reset --hard origin/main
-
-            echo "--- Installing dependencies ---"
-            npm ci --omit=dev
-
-
-
-            echo "--- Restarting PM2 ---"
             pm2 restart bussola-webhook
-
             echo "--- Deploy concluído ---"
