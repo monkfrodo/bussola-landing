@@ -9,29 +9,25 @@ Quando alguém compra, a plataforma de pagamento envia um webhook que dispara um
 ## Stack
 
 - **Frontend:** HTML + CSS + JS vanilla (estático)
-- **Backend:** Node.js (ESM) + Express 4.18
-- **Email:** Resend API v4
-- **Deploy:** DigitalOcean (PM2) — processo `bussola-webhook`, porta 3006
-- **Alternativa Vercel:** `api/webhook.js` (Vercel Serverless Function, formato export default)
+- **Backend real (produção):** Cloudflare Pages Function, `functions/api/webhook.js`
+- **Email:** Resend API v4 (chamada HTTP direta, sem SDK, pra rodar em Workers)
+- **Legado, mantidos só de referência:** `server.js` (Express/DO) e `api/webhook.js` (formato Vercel) — nenhum dos dois está publicado
 
 ## Domínio
 
-Não tem domínio próprio. O webhook roda no servidor DO e a landing page é servida como arquivo estático.
+`bussola.integros.org` e `bussola.somosintegros.com.br`, apontando pro Cloudflare Pages (`bussola-landing.pages.dev`).
 
 ## Deploy
 
-### DigitalOcean (produção atual)
+Cloudflare Pages, projeto `bussola-landing`.
 
-```bash
-ssh do
-cd /var/www/bussola-landing
-git pull
-pm2 restart bussola-webhook
-```
+**Autodeploy (desde 2026-09-24):** todo push em `main` roda `.github/workflows/deploy.yml` no GitHub Actions, que publica a raiz do repo via `wrangler pages deploy --branch=main`. Secrets `CLOUDFLARE_API_TOKEN` e `CLOUDFLARE_ACCOUNT_ID` ficam no repo; `RESEND_API_KEY` já está configurado como secret direto no projeto Cloudflare Pages (Settings → Environment variables), não precisa estar no repo nem no workflow.
 
-### Vercel (alternativa)
+- Publicar = commit + push em `main`. **Não** usar `wrangler pages deploy` manual: o que não estiver no Git é sobrescrito no próximo push.
+- Não vão para o site: `CLAUDE.md`, `README.md`, `.github`, `functions/`, `api/`, `server.js`, `package*.json` — ficam fora da pasta estática, mas `functions/` continua sendo compilado normalmente pelo wrangler (que lê `functions/` a partir da raiz do checkout, não da pasta de assets).
+- Guia geral: vault `30-tecnico/deploys-cloudflare.md`.
 
-O arquivo `api/webhook.js` é o handler no formato Vercel Serverless. Deploy automático se conectado.
+**Reconstrução em 2026-09-24:** até essa data o projeto Cloudflare Pages estava no ar por upload manual, e a function `/api/webhook` não existia em nenhum arquivo do repo (só `api/webhook.js`, formato Vercel, que nunca foi de fato lido pelo Cloudflare). `functions/api/webhook.js` foi criado portando `api/webhook.js` 1:1 pro formato nativo (`onRequestPost`/`onRequestGet`, `Response` em vez de `res.json()`, chamada HTTP direta ao Resend em vez do SDK). Template de e-mail, lista de eventos aprovados e extração de cliente são idênticos byte a byte ao arquivo original — só a casca de request/response mudou. Verificado num branch de preview antes de ir pra produção: GET, POST vazio, evento não aprovado, evento aprovado sem e-mail, e dois casos de JSON inválido bateram status e corpo idênticos à produção anterior (o caso de JSON inválido revelou que a function original não tem try/catch separado pro parse — o erro de parse cai no catch genérico e retorna `{error: err.message}` com 500; o código replica isso). Nenhum e-mail real foi disparado durante os testes.
 
 ## Comandos
 
@@ -54,9 +50,12 @@ npm start          # iniciar servidor (node server.js, porta 3006)
 ```
 bussola-landing/
 ├── index.html              ← Landing page principal (versão final, Alice Edition)
-├── server.js               ← Express server + webhook + template de email inline
+├── functions/
+│   └── api/
+│       └── webhook.js      ← Cloudflare Pages Function — é o que está publicado de fato
+├── server.js               ← Express server (legado DO, não publicado)
 ├── api/
-│   └── webhook.js          ← Vercel Serverless handler (mesma lógica do server.js)
+│   └── webhook.js          ← Vercel Serverless handler (legado, não publicado)
 ├── css/
 │   └── styles.css          ← Estilos completos (1277 linhas, tema dark + gold)
 ├── js/
